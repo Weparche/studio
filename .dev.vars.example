@@ -1,0 +1,18 @@
+# Copy to .dev.vars for local wrangler dev. Never commit real values.
+
+BYTEPLUS_API_KEY=
+BYTEPLUS_BASE_URL=https://ark.ap-southeast.bytepluses.com/api/v3
+BYTEPLUS_MODEL=dreamina-seedance-2-5-260628
+BYTEPLUS_BILLING_MODE=MODELARK_TOKEN
+BYTEPLUS_TOKEN_PRICE_NO_VIDEO=10.70
+BYTEPLUS_TOKEN_PRICE_WITH_VIDEO=6.40
+
+# Optional: track estimated remaining = funded - studio spend
+BYTEPLUS_FUNDED_BUDGET_USD=
+BYTEPLUS_LOW_BALANCE_USD=5
+BYTEPLUS_DAILY_BUDGET_USD=
+BYTEPLUS_MONTHLY_BUDGET_USD=
+
+MEDIA_SIGNING_SECRET=change-me-to-a-long-random-string
+SESSION_SECRET=change-me-to-another-long-random-string
+STUDIO_PASSWORD=change-me-strong-password

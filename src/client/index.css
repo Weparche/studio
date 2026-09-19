@@ -16,7 +16,6 @@
 
   --color-ink: #f2f1f5;
   --color-ink-muted: #a8a6b4;
-  /* AA-safe secondary labels on near-black (~4.6:1) */
   --color-ink-faint: #8b8998;
 
   --color-accent: #5eead4;
@@ -29,6 +28,14 @@
   --color-danger: #f87171;
   --color-info: #67e8f9;
 }
+
+/*
+  Density contract (Impeccable Operate):
+  - Readable like Chrome ~125% on laptop + 4K
+  - Still overviewable: three columns remain usable; composer measure capped
+  - FHD: slightly narrower chrome after zoom so center keeps scan width
+  - 4K: same readability zoom, wider chrome + hard composer max (no ocean of empty panel)
+*/
 
 :root {
   color-scheme: dark;
@@ -47,11 +54,13 @@
   --accent-dim: var(--color-accent-dim);
   --radius: 12px;
   --radius-sm: 8px;
-  --sidebar-w: 240px;
-  --rail-w: 300px;
-  --composer-max: none;
-  /* 1 = FHD/laptop at 100%. Raised only on large CSS viewports (4K @ 100% OS). */
-  --ui-zoom: 1;
+
+  /* Desktop default ≈ preferred 125% readability */
+  --ui-zoom: 1.25;
+  /* Narrower CSS widths compensate zoom so FHD still fits 3 columns cleanly */
+  --sidebar-w: 208px;
+  --rail-w: 268px;
+  --composer-max: 46rem;
   --glow: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(94, 234, 212, 0.07), transparent 55%);
 }
 
@@ -78,7 +87,7 @@ body {
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -143,7 +152,6 @@ a {
   border-radius: 999px;
 }
 
-/* FHD baseline — same measure as before (~240 / fluid / ~300) */
 .studio-grid {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -158,28 +166,60 @@ a {
   grid-column: 1 / -1;
 }
 
+/* Phone / tablet: drop zoom so stacked layout stays overviewable */
 @media (max-width: 1024px) {
+  :root {
+    --ui-zoom: 1.05;
+    --sidebar-w: 100%;
+    --rail-w: 100%;
+    --composer-max: none;
+  }
+
   .studio-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto 1fr;
   }
 }
 
-/* FHD (~1920) stays at --ui-zoom: 1 — no change vs laptop/desktop 1080p/1440p.
-
-   27" 4K at 100% OS scale ≈ 3840 CSS px → text is physically tiny; match ~Chrome 125%.
-   If Windows already scales (e.g. 150% → ~2560 CSS px), use a milder bump. */
-
-@media (min-width: 2400px) {
+/* Compact laptops (~1366 effective after zoom): keep readability, tighten chrome */
+@media (min-width: 1025px) and (max-width: 1440px) {
   :root {
-    --ui-zoom: 1.12;
-    --sidebar-w: 260px;
-    --rail-w: 320px;
-    --composer-max: 52rem;
+    --ui-zoom: 1.18;
+    --sidebar-w: 196px;
+    --rail-w: 248px;
+    --composer-max: 42rem;
+  }
+
+  body {
+    font-size: 14.5px;
+  }
+}
+
+/* FHD / 20" class desktops — 125% readable, columns still scanable */
+@media (min-width: 1441px) and (max-width: 2559px) {
+  :root {
+    --ui-zoom: 1.25;
+    --sidebar-w: 208px;
+    --rail-w: 268px;
+    --composer-max: 48rem;
   }
 
   body {
     font-size: 15px;
+  }
+}
+
+/* QHD / scaled 4K — same readability, more chrome room, capped composer */
+@media (min-width: 2560px) and (max-width: 3799px) {
+  :root {
+    --ui-zoom: 1.25;
+    --sidebar-w: 240px;
+    --rail-w: 300px;
+    --composer-max: 52rem;
+  }
+
+  body {
+    font-size: 15.5px;
   }
 
   .mode-pill {
@@ -188,25 +228,13 @@ a {
   }
 }
 
-@media (min-width: 3000px) {
+/* Native 4K CSS viewport — readable, not sparse: hard measure + modest chrome growth */
+@media (min-width: 3800px) {
   :root {
-    --ui-zoom: 1.18;
+    --ui-zoom: 1.25;
     --sidebar-w: 280px;
     --rail-w: 340px;
     --composer-max: 56rem;
-  }
-
-  body {
-    font-size: 15.5px;
-  }
-}
-
-@media (min-width: 3600px) {
-  :root {
-    --ui-zoom: 1.25;
-    --sidebar-w: 300px;
-    --rail-w: 360px;
-    --composer-max: 60rem;
   }
 
   body {
@@ -226,7 +254,6 @@ a {
   }
 }
 
-/* Firefox has no zoom — approximate with scale */
 @supports not (zoom: 1) {
   #root {
     zoom: unset;
@@ -238,7 +265,8 @@ a {
 .composer-measure {
   width: 100%;
   max-width: var(--composer-max);
-  margin-inline: 0 auto;
+  /* Left-anchored: keeps hierarchy with the tree, avoids floating void on 4K */
+  margin-inline: 0 auto 0 0;
 }
 
 .panel-surface {

@@ -127,6 +127,36 @@ describe("BytePlus payload builder", () => {
       }),
     ).toThrow(/Duration/);
   });
+
+  it("does not mix reference_image into first_frame mode", () => {
+    const payload = buildBytePlusPayload({
+      prompt: "Animate",
+      mode: "first_frame",
+      firstFrame: {
+        assetId: "a1",
+        role: "first_frame",
+        tag: "@f",
+        sortOrder: 0,
+        url: "https://example.com/first.jpg",
+      },
+      references: [
+        {
+          assetId: "a2",
+          role: "reference_image",
+          tag: "@image1",
+          sortOrder: 0,
+          url: "https://example.com/ref.jpg",
+        },
+      ],
+      duration: 5,
+      resolution: "480p",
+      aspectRatio: "9:16",
+      generateAudio: true,
+      returnLastFrame: true,
+    });
+    expect(payload.content.some((c) => c.role === "reference_image")).toBe(false);
+    expect(payload.content.filter((c) => c.type === "image_url")).toHaveLength(1);
+  });
 });
 
 describe("provider status mapper", () => {

@@ -2,9 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ClipboardCopy,
   Eraser,
+  Film,
+  Frame,
   ImagePlus,
+  Images,
   Loader2,
   Sparkles,
+  Type,
   Upload,
   Users,
   X,
@@ -27,14 +31,36 @@ import { CharacterLibrary, type StripItem } from "@/client/components/CharacterL
 import { useDebouncedCallback } from "@/client/hooks/useDebounce";
 import { cn, modKeyLabel } from "@/client/lib/utils";
 
-const MODES: Array<{ id: GenerationMode; label: string }> = [
-  { id: "text", label: "Text" },
-  { id: "first_frame", label: "First frame" },
-  { id: "first_last", label: "First+Last" },
-  { id: "references", label: "References" },
+const MODES: Array<{
+  id: GenerationMode;
+  label: string;
+  hint: string;
+  icon: typeof Type;
+}> = [
+  { id: "text", label: "Text", hint: "Prompt only — no image roles", icon: Type },
+  {
+    id: "first_frame",
+    label: "First frame",
+    hint: "API role: first_frame · aspect locked to adaptive",
+    icon: Frame,
+  },
+  {
+    id: "first_last",
+    label: "First + Last",
+    hint: "API roles: first_frame + last_frame — not reference_image",
+    icon: Film,
+  },
+  {
+    id: "references",
+    label: "References",
+    hint: "API role: reference_image · cite with @imageN",
+    icon: Images,
+  },
 ];
 
 const DURATION_CHIPS = [5, 10, 15, 20, 30];
+
+const FRAME_MODES = new Set<GenerationMode>(["first_frame", "first_last"]);
 
 export interface ComposerState {
   mode: GenerationMode;
@@ -216,6 +242,14 @@ export function SceneComposer({
     });
   };
 
+  const setMode = (mode: GenerationMode) => {
+    if (FRAME_MODES.has(mode)) {
+      update({ mode, aspectRatio: "adaptive" });
+    } else {
+      update({ mode });
+    }
+  };
+
   const taggedRefs = renumberReferences(
     state.references.map((r) => ({
       id: r.id,
@@ -302,9 +336,15 @@ export function SceneComposer({
         role: uploadRoleRef.current,
       };
       if (uploadRoleRef.current === "first_frame") {
-        update({ firstFrame: item, mode: state.mode === "text" ? "first_frame" : state.mode });
+        update({
+          firstFrame: item,
+          mode: state.mode === "text" ? "first_frame" : state.mode,
+          ...(FRAME_MODES.has(state.mode === "text" ? "first_frame" : state.mode)
+            ? { aspectRatio: "adaptive" as const }
+            : {}),
+        });
       } else if (uploadRoleRef.current === "last_frame") {
-        update({ lastFrame: item, mode: "first_last" });
+        update({ lastFrame: item, mode: "first_last", aspectRatio: "adaptive" });
       } else {
         update({
           references: [...state.references, item],
@@ -316,6 +356,32 @@ export function SceneComposer({
     }
   };
 
+  const pickUpload = (role: "reference_image" | "first_frame" | "last_frame") => {
+    uploadRoleRef.current = role;
+    fileRef.current?.click();
+  };
+
+  const insertRefTag = (tag: string) => {
+    const ta = textareaRef.current;
+    const insert = `${tag} `;
+    if (!ta) {
+      update({ prompt: `${state.prompt}${insert}` });
+      return;
+    }
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const next = state.prompt.slice(0, start) + insert + state.prompt.slice(end);
+    update({ prompt: next });
+    requestAnimationFrame(() => {
+      ta.focus();
+      const pos = start + insert.length;
+      ta.setSelectionRange(pos, pos);
+    });
+  };
+
+  const isFrameMode = FRAME_MODES.has(state.mode);
+  const activeMode = MODES.find((m) => m.id === state.mode);
+
   if (!scene) {
     return (
       <div className="flex min-h-[320px] items-center justify-center bg-[var(--surface-0)] text-[13px] text-[var(--text-faint)]">
@@ -326,22 +392,29 @@ export function SceneComposer({
 
   return (
     <section className="flex min-h-0 flex-col bg-[var(--surface-0)]">
-      <div className="flex flex-wrap items-center gap-1 border-b border-[var(--line)] px-2 py-1.5">
-        {MODES.map((m) => (
-          <button
-            key={m.id}
-            type="button"
-            onClick={() => update({ mode: m.id })}
-            className={cn(
-              "rounded px-2.5 py-1 text-[12px]",
-              state.mode === m.id
-                ? "bg-accent-dim text-accent"
-                : "text-[var(--text-muted)] hover:bg-[var(--panel-hover)] hover:text-[var(--text)]",
-            )}
-          >
-            {m.label}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-[var(--line)] px-3 py-2.5">
+        <div className="flex flex-wrap items-center gap-1 rounded-full bg-[var(--panel)] p-1">
+          {MODES.map((m) => {
+            const Icon = m.icon;
+            const active = state.mode === m.id;
+            return (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => setMode(m.id)}
+                data-active={active ? "true" : "false"}
+                className={cn(
+                  "mode-pill inline-flex items-center gap-1.5",
+                  !active && "hover:bg-[var(--panel-hover)] hover:text-[var(--text)]",
+                )}
+                title={m.hint}
+              >
+                <Icon className="size-3.5" />
+                {m.label}
+              </button>
+            );
+          })}
+        </div>
         <div className="ml-auto flex items-center gap-2 text-[11px] text-[var(--text-faint)]">
           {saving ? "Saving…" : "Saved"}
           <span className="hidden sm:inline">
@@ -350,37 +423,69 @@ export function SceneComposer({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
-        {(state.mode === "first_frame" ||
-          state.mode === "first_last" ||
-          state.mode === "references") && (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-                Reference strip
+      <div className="scroll-thin min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
+        {activeMode ? (
+          <p className="text-[12px] leading-relaxed text-[var(--text-muted)]">
+            {activeMode.hint}
+          </p>
+        ) : null}
+
+        {isFrameMode ? (
+          <div className="panel-surface space-y-3 p-3">
+            <div>
+              <div className="text-[12px] font-medium text-[var(--text)]">
+                {state.mode === "first_frame" ? "Starting frame" : "Keyframe frames"}
               </div>
-              <div className="flex gap-1">
-                <StripBtn
-                  onClick={() => {
-                    uploadRoleRef.current =
-                      state.mode === "first_frame" || state.mode === "first_last"
-                        ? "first_frame"
-                        : "reference_image";
-                    fileRef.current?.click();
-                  }}
-                >
+              <p className="mt-0.5 text-[11px] text-[var(--text-faint)]">
+                Dedicated API roles — not sent as{" "}
+                <span className="font-mono text-accent">reference_image</span>. Aspect
+                ratio is locked to adaptive for Seedance 2.5.
+              </p>
+            </div>
+            <div
+              className={cn(
+                "grid gap-3",
+                state.mode === "first_last" ? "sm:grid-cols-2" : "grid-cols-1",
+              )}
+            >
+              <FrameDropZone
+                title="First frame"
+                roleHint="role: first_frame"
+                item={state.firstFrame}
+                onPick={() => pickUpload("first_frame")}
+                onClear={() => update({ firstFrame: null })}
+              />
+              {state.mode === "first_last" ? (
+                <FrameDropZone
+                  title="Last frame"
+                  roleHint="role: last_frame"
+                  item={state.lastFrame}
+                  onPick={() => pickUpload("last_frame")}
+                  onClear={() => update({ lastFrame: null })}
+                />
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+
+        {state.mode === "references" ? (
+          <div className="panel-surface space-y-3 p-3">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <div className="text-[12px] font-medium text-[var(--text)]">
+                  Reference images
+                </div>
+                <p className="mt-0.5 text-[11px] text-[var(--text-faint)]">
+                  Uploaded as{" "}
+                  <span className="font-mono text-accent">reference_image</span>. Click a
+                  thumb to insert{" "}
+                  <span className="font-mono text-accent">@imageN</span> into the prompt.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-wrap justify-end gap-1">
+                <StripBtn onClick={() => pickUpload("reference_image")}>
                   <Upload className="size-3" /> Upload
                 </StripBtn>
-                {state.mode === "first_last" ? (
-                  <StripBtn
-                    onClick={() => {
-                      uploadRoleRef.current = "last_frame";
-                      fileRef.current?.click();
-                    }}
-                  >
-                    <ImagePlus className="size-3" /> Last
-                  </StripBtn>
-                ) : null}
                 <StripBtn onClick={() => setCharLibOpen(true)}>
                   <Users className="size-3" /> Characters
                 </StripBtn>
@@ -388,20 +493,6 @@ export function SceneComposer({
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {state.firstFrame ? (
-                <FrameThumb
-                  tag="@first"
-                  item={state.firstFrame}
-                  onRemove={() => update({ firstFrame: null })}
-                />
-              ) : null}
-              {state.lastFrame ? (
-                <FrameThumb
-                  tag="@last"
-                  item={state.lastFrame}
-                  onRemove={() => update({ lastFrame: null })}
-                />
-              ) : null}
               {taggedRefs.map((r) => {
                 const item = state.references.find((x) => x.id === r.id);
                 return (
@@ -414,48 +505,32 @@ export function SceneComposer({
                         references: state.references.filter((x) => x.id !== r.id),
                       })
                     }
-                    onInsertTag={() => {
-                      const ta = textareaRef.current;
-                      const tag = `${r.tag} `;
-                      if (!ta) {
-                        update({ prompt: `${state.prompt}${tag}` });
-                        return;
-                      }
-                      const start = ta.selectionStart;
-                      const end = ta.selectionEnd;
-                      const next =
-                        state.prompt.slice(0, start) + tag + state.prompt.slice(end);
-                      update({ prompt: next });
-                      requestAnimationFrame(() => {
-                        ta.focus();
-                        const pos = start + tag.length;
-                        ta.setSelectionRange(pos, pos);
-                      });
-                    }}
+                    onInsertTag={() => insertRefTag(r.tag)}
                   />
                 );
               })}
-              {!state.firstFrame &&
-              !state.lastFrame &&
-              state.references.length === 0 ? (
-                <div className="rounded border border-dashed border-[var(--line)] px-3 py-4 text-[12px] text-[var(--text-faint)]">
-                  Add frames, references, or characters
-                </div>
+              {state.references.length === 0 ? (
+                <button
+                  type="button"
+                  onClick={() => pickUpload("reference_image")}
+                  className="frame-drop flex min-h-[88px] w-full flex-col items-center justify-center gap-1.5 px-3 py-4 text-[12px] text-[var(--text-faint)]"
+                >
+                  <ImagePlus className="size-5 text-accent/80" />
+                  Add reference images or characters
+                </button>
               ) : null}
             </div>
           </div>
-        )}
+        ) : null}
 
-        <div>
-          <div className="mb-1 flex items-center justify-between">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-              Prompt
-            </label>
+        <div className="panel-surface p-3">
+          <div className="mb-1.5 flex items-center justify-between">
+            <label className="text-[12px] font-medium text-[var(--text)]">Prompt</label>
             <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => setShowSnippets((v) => !v)}
-                className="rounded border border-[var(--line)] px-1.5 py-0.5 text-[11px] text-[var(--text-muted)] hover:text-[var(--text)]"
+                className="rounded-full border border-[var(--line)] px-2.5 py-0.5 text-[11px] text-[var(--text-muted)] hover:text-[var(--text)]"
               >
                 Snippets
               </button>
@@ -463,7 +538,7 @@ export function SceneComposer({
                 type="button"
                 title="Copy"
                 onClick={() => void navigator.clipboard.writeText(state.prompt)}
-                className="inline-flex size-6 items-center justify-center rounded border border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]"
+                className="inline-flex size-7 items-center justify-center rounded-full border border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]"
               >
                 <ClipboardCopy className="size-3" />
               </button>
@@ -471,7 +546,7 @@ export function SceneComposer({
                 type="button"
                 title="Clear"
                 onClick={() => update({ prompt: "" })}
-                className="inline-flex size-6 items-center justify-center rounded border border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]"
+                className="inline-flex size-7 items-center justify-center rounded-full border border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]"
               >
                 <Eraser className="size-3" />
               </button>
@@ -493,7 +568,7 @@ export function SceneComposer({
                         : s.body,
                     })
                   }
-                  className="rounded border border-[var(--line)] bg-[var(--panel-raised)] px-2 py-0.5 text-[11px] text-[var(--text-muted)] hover:border-accent/40 hover:text-accent"
+                  className="rounded-full border border-[var(--line)] bg-[var(--panel-raised)] px-2.5 py-0.5 text-[11px] text-[var(--text-muted)] hover:border-accent/40 hover:text-accent"
                 >
                   {s.title}
                 </button>
@@ -504,14 +579,18 @@ export function SceneComposer({
             ref={textareaRef}
             value={state.prompt}
             onChange={(e) => update({ prompt: e.target.value })}
-            rows={8}
-            placeholder="Describe the shot… use @imageN tags for references"
-            className="w-full resize-y rounded border border-[var(--line)] bg-[var(--panel)] px-3 py-2 text-[13px] leading-relaxed outline-none focus:border-accent/40"
+            rows={7}
+            placeholder={
+              state.mode === "references"
+                ? "Describe the shot… cite references with @image1, @image2…"
+                : "Describe the shot…"
+            }
+            className="w-full resize-y rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-3 py-2.5 text-[13px] leading-relaxed outline-none focus:border-accent/40"
           />
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <fieldset>
+          <fieldset className="panel-surface p-3">
             <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
               Resolution
             </legend>
@@ -531,7 +610,7 @@ export function SceneComposer({
             </div>
           </fieldset>
 
-          <fieldset>
+          <fieldset className="panel-surface p-3">
             <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
               Duration
             </legend>
@@ -545,7 +624,7 @@ export function SceneComposer({
                     update({ duration: d });
                   }}
                   className={cn(
-                    "rounded border px-2 py-1 font-mono text-[12px]",
+                    "rounded-full border px-2.5 py-1 font-mono text-[12px]",
                     !customDuration && state.duration === d
                       ? "border-accent/40 bg-accent-dim text-accent"
                       : "border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]",
@@ -558,7 +637,7 @@ export function SceneComposer({
                 type="button"
                 onClick={() => setCustomDuration(true)}
                 className={cn(
-                  "rounded border px-2 py-1 text-[12px]",
+                  "rounded-full border px-2.5 py-1 text-[12px]",
                   customDuration
                     ? "border-accent/40 bg-accent-dim text-accent"
                     : "border-[var(--line)] text-[var(--text-muted)]",
@@ -576,40 +655,58 @@ export function SceneComposer({
                     const n = Number(e.target.value);
                     if (Number.isFinite(n)) {
                       update({
-                        duration: Math.min(MAX_DURATION, Math.max(MIN_DURATION, Math.round(n))),
+                        duration: Math.min(
+                          MAX_DURATION,
+                          Math.max(MIN_DURATION, Math.round(n)),
+                        ),
                       });
                     }
                   }}
-                  className="w-16 rounded border border-[var(--line)] bg-[var(--panel)] px-2 py-1 font-mono text-[12px] outline-none"
+                  className="w-16 rounded-full border border-[var(--line)] bg-[var(--panel)] px-2 py-1 font-mono text-[12px] outline-none"
                 />
               ) : null}
             </div>
           </fieldset>
 
-          <fieldset>
+          <fieldset className="panel-surface p-3">
             <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
               Aspect ratio
             </legend>
-            <div className="flex flex-wrap gap-1.5">
-              {SUPPORTED_RATIOS.map((r) => (
+            {isFrameMode ? (
+              <div className="space-y-1.5">
                 <button
-                  key={r}
                   type="button"
-                  onClick={() => update({ aspectRatio: r })}
-                  className={cn(
-                    "rounded border px-2 py-1 font-mono text-[11px]",
-                    state.aspectRatio === r
-                      ? "border-accent/40 bg-accent-dim text-accent"
-                      : "border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]",
-                  )}
+                  disabled
+                  className="rounded-full border border-accent/40 bg-accent-dim px-3 py-1.5 font-mono text-[11px] text-accent"
                 >
-                  {r}
+                  adaptive
                 </button>
-              ))}
-            </div>
+                <p className="text-[11px] text-[var(--text-faint)]">
+                  Locked for first / last frame modes (Seedance 2.5).
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-1.5">
+                {SUPPORTED_RATIOS.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => update({ aspectRatio: r })}
+                    className={cn(
+                      "rounded-full border px-2.5 py-1 font-mono text-[11px]",
+                      state.aspectRatio === r
+                        ? "border-accent/40 bg-accent-dim text-accent"
+                        : "border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]",
+                    )}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            )}
           </fieldset>
 
-          <fieldset className="space-y-2">
+          <fieldset className="panel-surface space-y-2 p-3">
             <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
               Options
             </legend>
@@ -627,17 +724,17 @@ export function SceneComposer({
         </div>
 
         {error ? (
-          <div className="rounded border border-danger/30 bg-danger/10 px-2.5 py-2 text-[12px] text-danger">
+          <div className="rounded-2xl border border-danger/30 bg-danger/10 px-2.5 py-2 text-[12px] text-danger">
             {error}
           </div>
         ) : null}
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-[var(--line)] bg-[var(--panel)] px-3 py-2">
+      <div className="flex items-center justify-between gap-2 border-t border-[var(--line)] bg-[var(--panel)] px-3 py-3">
         <button
           type="button"
           onClick={() => void persistScene(state)}
-          className="rounded border border-[var(--line)] px-3 py-1.5 text-[12px] text-[var(--text-muted)] hover:text-[var(--text)]"
+          className="rounded-full border border-[var(--line)] px-4 py-2 text-[12px] text-[var(--text-muted)] hover:text-[var(--text)]"
         >
           Save
         </button>
@@ -645,12 +742,12 @@ export function SceneComposer({
           type="button"
           disabled={generating}
           onClick={() => void generate()}
-          className="inline-flex items-center gap-1.5 rounded bg-accent px-3.5 py-1.5 text-[12px] font-semibold text-[#1a140c] hover:bg-accent-hover disabled:opacity-60"
+          className="gen-btn inline-flex items-center gap-2 px-6 py-2.5 text-[13px] transition-transform"
         >
           {generating ? (
-            <Loader2 className="size-3.5 animate-spin" />
+            <Loader2 className="size-4 animate-spin" />
           ) : (
-            <Sparkles className="size-3.5" />
+            <Sparkles className="size-4" />
           )}
           Generate
         </button>
@@ -698,6 +795,96 @@ function defaultState(): ComposerState {
   };
 }
 
+function FrameDropZone({
+  title,
+  roleHint,
+  item,
+  onPick,
+  onClear,
+}: {
+  title: string;
+  roleHint: string;
+  item: StripItem | null;
+  onPick: () => void;
+  onClear: () => void;
+}) {
+  const [url, setUrl] = useState(item?.url ?? null);
+
+  useEffect(() => {
+    if (!item) {
+      setUrl(null);
+      return;
+    }
+    if (item.url) {
+      setUrl(item.url);
+      return;
+    }
+    let cancelled = false;
+    void api.assetUrl(item.assetId).then((r) => {
+      if (!cancelled) setUrl(r.url);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [item?.assetId, item?.url, item]);
+
+  if (item) {
+    return (
+      <div className="frame-drop group relative min-h-[160px]">
+        {url ? (
+          <img
+            src={url}
+            alt={item.label}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full min-h-[160px] items-center justify-center text-[12px] text-[var(--text-faint)]">
+            Loading…
+          </div>
+        )}
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/75 to-transparent p-3">
+          <div>
+            <div className="text-[12px] font-medium text-white">{title}</div>
+            <div className="font-mono text-[10px] text-accent">{roleHint}</div>
+          </div>
+          <div className="flex gap-1">
+            <button
+              type="button"
+              onClick={onPick}
+              className="rounded-full bg-white/15 px-2.5 py-1 text-[11px] text-white backdrop-blur hover:bg-white/25"
+            >
+              Replace
+            </button>
+            <button
+              type="button"
+              onClick={onClear}
+              className="inline-flex size-7 items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"
+              title="Clear"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <button type="button" onClick={onPick} className="frame-drop flex w-full flex-col items-center justify-center gap-2 px-4 py-8 text-center">
+      <div className="flex size-10 items-center justify-center rounded-full bg-accent-dim text-accent">
+        <Upload className="size-4" />
+      </div>
+      <div>
+        <div className="text-[13px] font-medium text-[var(--text)]">{title}</div>
+        <div className="mt-0.5 font-mono text-[10px] text-accent">{roleHint}</div>
+        <div className="mt-1.5 text-[11px] text-[var(--text-faint)]">
+          Click to upload image
+        </div>
+      </div>
+    </button>
+  );
+}
+
 function StripBtn({
   children,
   onClick,
@@ -709,7 +896,7 @@ function StripBtn({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1 rounded border border-[var(--line)] px-2 py-0.5 text-[11px] text-[var(--text-muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"
+      className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] text-[var(--text-muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"
     >
       {children}
     </button>
@@ -743,7 +930,7 @@ function FrameThumb({
   }, [item.assetId, item.url]);
 
   return (
-    <div className="group relative w-20 overflow-hidden rounded border border-[var(--line)] bg-[var(--panel-raised)]">
+    <div className="group relative w-20 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel-raised)]">
       <button
         type="button"
         className="block w-full"
@@ -764,7 +951,7 @@ function FrameThumb({
       <button
         type="button"
         onClick={onRemove}
-        className="absolute right-0.5 top-0.5 rounded bg-black/70 p-0.5 text-white opacity-0 group-hover:opacity-100"
+        className="absolute right-0.5 top-0.5 rounded-full bg-black/70 p-0.5 text-white opacity-0 group-hover:opacity-100"
       >
         <X className="size-3" />
       </button>
@@ -788,7 +975,7 @@ function ResChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded border px-2.5 py-1 text-left",
+        "rounded-2xl border px-3 py-1.5 text-left",
         active
           ? "border-accent/40 bg-accent-dim"
           : "border-[var(--line)] hover:border-[var(--line-strong)]",
@@ -812,7 +999,7 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-3 rounded border border-[var(--line)] bg-[var(--panel)] px-2.5 py-1.5">
+    <label className="flex cursor-pointer items-center justify-between gap-3 rounded-full border border-[var(--line)] bg-[var(--panel)] px-3 py-1.5">
       <span className="text-[12px] text-[var(--text-muted)]">{label}</span>
       <button
         type="button"
@@ -826,7 +1013,7 @@ function Toggle({
       >
         <span
           className={cn(
-            "absolute top-0.5 size-4 rounded-full bg-[#1a140c] transition-transform",
+            "absolute top-0.5 size-4 rounded-full bg-[#041512] transition-transform",
             checked ? "left-4" : "left-0.5",
           )}
         />

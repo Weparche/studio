@@ -142,18 +142,9 @@ export function buildBytePlusPayload(
     }
   }
 
-  // Optional extra references on first-frame modes when provided
-  if (input.mode === "first_frame" || input.mode === "first_last") {
-    const extras = [...input.references].sort((a, b) => a.sortOrder - b.sortOrder);
-    for (const ref of extras) {
-      if (!ref.url) continue;
-      content.push({
-        type: "image_url",
-        image_url: { url: ref.url },
-        role: "reference_image",
-      });
-    }
-  }
+  // Official Seedance 2.5: first_frame / last_frame modes must NOT mix with
+  // reference_image / reference_video / reference_audio. Those belong only in
+  // omni reference-to-video mode.
 
   const payload: BytePlusCreateTaskRequest = {
     model,

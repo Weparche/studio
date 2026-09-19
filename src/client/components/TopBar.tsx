@@ -65,6 +65,7 @@ export function TopBar({
           to="/settings"
           className="inline-flex size-8 items-center justify-center rounded-full border border-[var(--line)] text-[var(--text-muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"
           title="Settings"
+          aria-label="Settings"
         >
           <Settings className="size-3.5" />
         </Link>

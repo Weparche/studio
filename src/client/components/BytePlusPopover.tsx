@@ -31,7 +31,7 @@ export function BytePlusPopover({ status, billing, loading }: BytePlusPopoverPro
         >
           <Wallet className="size-3.5" />
           {!configured ? (
-            <span>Setup required</span>
+            <span>BytePlus key needed</span>
           ) : remaining == null ? (
             <span>Budget unset</span>
           ) : (

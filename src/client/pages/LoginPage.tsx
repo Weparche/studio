@@ -37,7 +37,7 @@ export function LoginPage() {
             "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(94,234,212,0.12), transparent 60%)",
         }}
       />
-      <div className="panel-surface relative w-full max-w-sm p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+      <div className="panel-surface login-card relative w-full max-w-sm p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
         <div className="mb-1 text-[11px] font-semibold tracking-[0.16em] text-accent">
           NEPAR SERIES
         </div>
@@ -46,14 +46,17 @@ export function LoginPage() {
           Internal Seedance production workspace.
         </p>
         <form onSubmit={(e) => void onSubmit(e)} className="space-y-3">
-          <input
-            type="password"
-            autoFocus
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full rounded-full border border-[var(--line)] bg-[var(--panel-raised)] px-4 py-2.5 text-[13px] outline-none focus:border-accent/40"
-          />
+          <label className="block space-y-1.5">
+            <span className="text-[12px] font-medium text-[var(--text-muted)]">Password</span>
+            <input
+              type="password"
+              autoFocus
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Workspace password"
+              className="w-full rounded-full border border-[var(--line)] bg-[var(--panel-raised)] px-4 py-2.5 text-[13px] outline-none focus:border-accent/40"
+            />
+          </label>
           {error ? (
             <div className="rounded-[var(--radius-sm)] border border-danger/30 bg-danger/10 px-3 py-2 text-[12px] text-danger">
               {error}

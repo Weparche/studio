@@ -99,11 +99,12 @@ export function GenerationCard({
           </div>
           <button
             type="button"
-            title={g.is_favorite ? "Unselect" : "Mark selected"}
+            title={g.is_favorite ? "Remove from selected" : "Mark as selected"}
+            aria-label={g.is_favorite ? "Remove from selected" : "Mark as selected"}
             onClick={() => onFavorite(g)}
             className={cn(
               "shrink-0 rounded p-1",
-              g.is_favorite ? "text-accent" : "text-[var(--text-faint)] hover:text-accent",
+              g.is_favorite ? "text-accent" : "text-[var(--text-muted)] hover:text-accent",
             )}
           >
             <Heart className={cn("size-3.5", g.is_favorite && "fill-current")} />

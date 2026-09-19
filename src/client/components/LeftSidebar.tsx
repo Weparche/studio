@@ -64,12 +64,13 @@ export function LeftSidebar({
   return (
     <aside className="flex min-h-0 flex-col border-r border-[var(--line)] bg-[var(--panel)]">
       <div className="flex h-9 items-center justify-between border-b border-[var(--line)] px-2.5">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
           Projects
         </span>
         <button
           type="button"
           title="New project"
+          aria-label="New project"
           onClick={() => {
             setCreating("project");
             setDraft("");
@@ -115,24 +116,27 @@ export function LeftSidebar({
             const projectEps = episodesByProject.get(project.id) ?? [];
             return (
               <div key={project.id} className="mb-0.5">
-                <button
-                  type="button"
-                  onClick={() => toggleProject(project.id)}
-                  className="flex w-full items-center gap-1 rounded px-1.5 py-1 text-left text-[12px] hover:bg-[var(--panel-hover)]"
-                >
-                  {open ? (
-                    <ChevronDown className="size-3.5 text-[var(--text-faint)]" />
-                  ) : (
-                    <ChevronRight className="size-3.5 text-[var(--text-faint)]" />
-                  )}
-                  <Layers className="size-3.5 text-accent" />
-                  <span className="truncate font-medium">{project.name}</span>
+                <div className="flex w-full items-center gap-1 rounded px-1.5 py-1 text-[12px] hover:bg-[var(--panel-hover)]">
+                  <button
+                    type="button"
+                    onClick={() => toggleProject(project.id)}
+                    className="flex min-w-0 flex-1 items-center gap-1 text-left"
+                    aria-expanded={open}
+                  >
+                    {open ? (
+                      <ChevronDown className="size-3.5 shrink-0 text-[var(--text-muted)]" />
+                    ) : (
+                      <ChevronRight className="size-3.5 shrink-0 text-[var(--text-muted)]" />
+                    )}
+                    <Layers className="size-3.5 shrink-0 text-accent" />
+                    <span className="truncate font-medium">{project.name}</span>
+                  </button>
                   <button
                     type="button"
                     title="Add episode"
-                    className="ml-auto inline-flex size-5 items-center justify-center rounded text-[var(--text-faint)] hover:bg-[var(--surface-4)] hover:text-[var(--text)]"
-                    onClick={async (e) => {
-                      e.stopPropagation();
+                    aria-label={`Add episode to ${project.name}`}
+                    className="inline-flex size-6 shrink-0 items-center justify-center rounded text-[var(--text-muted)] hover:bg-[var(--surface-4)] hover:text-[var(--text)]"
+                    onClick={async () => {
                       const nextNum =
                         projectEps.reduce((m, ep) => Math.max(m, ep.episode_number), 0) + 1;
                       await onCreateEpisode(project.id, `Episode ${nextNum}`, nextNum);
@@ -141,7 +145,7 @@ export function LeftSidebar({
                   >
                     <Plus className="size-3" />
                   </button>
-                </button>
+                </div>
 
                 {open
                   ? projectEps.map((ep) => {
@@ -149,33 +153,36 @@ export function LeftSidebar({
                       const epScenes = scenesByEpisode.get(ep.id) ?? [];
                       return (
                         <div key={ep.id} className="ml-3">
-                          <button
-                            type="button"
-                            onClick={() => toggleEpisode(ep.id)}
-                            className="flex w-full items-center gap-1 rounded px-1.5 py-1 text-left text-[12px] text-[var(--text-muted)] hover:bg-[var(--panel-hover)] hover:text-[var(--text)]"
-                          >
-                            {epOpen ? (
-                              <ChevronDown className="size-3 text-[var(--text-faint)]" />
-                            ) : (
-                              <ChevronRight className="size-3 text-[var(--text-faint)]" />
-                            )}
-                            <Film className="size-3" />
-                            <span className="truncate">
-                              E{ep.episode_number} · {ep.name}
-                            </span>
+                          <div className="flex w-full items-center gap-1 rounded px-1.5 py-1 text-[12px] text-[var(--text-muted)] hover:bg-[var(--panel-hover)] hover:text-[var(--text)]">
+                            <button
+                              type="button"
+                              onClick={() => toggleEpisode(ep.id)}
+                              className="flex min-w-0 flex-1 items-center gap-1 text-left"
+                              aria-expanded={epOpen}
+                            >
+                              {epOpen ? (
+                                <ChevronDown className="size-3 shrink-0 text-[var(--text-muted)]" />
+                              ) : (
+                                <ChevronRight className="size-3 shrink-0 text-[var(--text-muted)]" />
+                              )}
+                              <Film className="size-3 shrink-0" />
+                              <span className="truncate">
+                                E{ep.episode_number} · {ep.name}
+                              </span>
+                            </button>
                             <button
                               type="button"
                               title="Add scene"
-                              className="ml-auto inline-flex size-5 items-center justify-center rounded text-[var(--text-faint)] hover:bg-[var(--surface-4)] hover:text-[var(--text)]"
-                              onClick={async (e) => {
-                                e.stopPropagation();
+                              aria-label={`Add scene to ${ep.name}`}
+                              className="inline-flex size-6 shrink-0 items-center justify-center rounded text-[var(--text-muted)] hover:bg-[var(--surface-4)] hover:text-[var(--text)]"
+                              onClick={async () => {
                                 await onCreateScene(ep.id, `Scene ${epScenes.length + 1}`);
                                 setExpandedEpisodes((p) => ({ ...p, [ep.id]: true }));
                               }}
                             >
                               <Plus className="size-3" />
                             </button>
-                          </button>
+                          </div>
                           {epOpen
                             ? epScenes.map((sc) => (
                                 <button

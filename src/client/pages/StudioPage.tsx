@@ -180,7 +180,7 @@ export function StudioPage() {
     const detail = await api.getGeneration(g.id);
     const assetId = detail.generatedLastFrameAssetId;
     if (!assetId) {
-      window.alert("No generated last-frame asset available for this generation.");
+      setLoadError("No generated last frame on this clip — enable Return last frame on the next run.");
       return;
     }
     setContinueFrom({ generation: g, lastFrameAssetId: assetId });
@@ -192,7 +192,7 @@ export function StudioPage() {
     const detail = await api.getGeneration(g.id);
     const assetId = detail.generatedLastFrameAssetId ?? g.first_frame_asset_id;
     if (!assetId) {
-      window.alert("No frame asset available.");
+      setLoadError("No frame asset available on this generation.");
       return;
     }
     setInjectFirstFrame({
@@ -208,7 +208,7 @@ export function StudioPage() {
     const detail = await api.getGeneration(g.id);
     const assetId = detail.generatedLastFrameAssetId;
     if (!assetId) {
-      window.alert("No last-frame asset to use as reference.");
+      setLoadError("No last-frame asset to use as a reference.");
       return;
     }
     setInjectReference({
@@ -251,13 +251,20 @@ export function StudioPage() {
       />
 
       {loadError ? (
-        <div className="col-span-full border-b border-danger/30 bg-danger/10 px-3 py-1.5 text-[12px] text-danger">
-          {loadError}
+        <div className="col-span-full flex items-center justify-between gap-3 border-b border-danger/30 bg-danger/10 px-3 py-1.5 text-[12px] text-danger">
+          <span>{loadError}</span>
+          <button
+            type="button"
+            className="rounded px-2 py-0.5 text-[11px] hover:bg-danger/20"
+            onClick={() => setLoadError(null)}
+          >
+            Dismiss
+          </button>
         </div>
       ) : null}
 
       {/* Mobile tabs */}
-      <div className="flex border-b border-[var(--line)] bg-[var(--panel)] lg:hidden">
+      <div className="mobile-tabs flex border-b border-[var(--line)] bg-[var(--panel)] lg:hidden">
         {(
           [
             ["tree", "Scenes"],

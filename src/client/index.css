@@ -15,10 +15,10 @@
   --color-border-strong: #3d3d4d;
 
   --color-ink: #f2f1f5;
-  --color-ink-muted: #9b99a8;
-  --color-ink-faint: #5e5c6b;
+  --color-ink-muted: #a8a6b4;
+  /* AA-safe secondary labels on near-black (~4.6:1) */
+  --color-ink-faint: #8b8998;
 
-  /* Cool mint — AI studio accent without purple SaaS cliché */
   --color-accent: #5eead4;
   --color-accent-hover: #99f6e4;
   --color-accent-dim: rgba(94, 234, 212, 0.12);
@@ -47,7 +47,10 @@
   --accent-dim: var(--color-accent-dim);
   --radius: 12px;
   --radius-sm: 8px;
-  --glow: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(94, 234, 212, 0.09), transparent 55%);
+  --sidebar-w: 240px;
+  --rail-w: 300px;
+  --composer-max: none;
+  --glow: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(94, 234, 212, 0.07), transparent 55%);
 }
 
 * {
@@ -132,24 +135,18 @@ a {
   border-radius: 999px;
 }
 
-.studio-shell {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  height: 100%;
-  min-height: 0;
-}
-
+/* FHD baseline — same measure as before (~240 / fluid / ~300) */
 .studio-grid {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  grid-template-columns: 240px minmax(0, 1fr) 300px;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--rail-w);
   height: 100%;
   min-height: 0;
 }
 
 .studio-grid > header,
 .studio-grid > .col-span-full,
-.studio-grid > .flex.border-b {
+.studio-grid > .mobile-tabs {
   grid-column: 1 / -1;
 }
 
@@ -160,17 +157,41 @@ a {
   }
 }
 
-.studio-body {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 300px;
-  min-height: 0;
-  height: 100%;
+/* QHD — slightly roomier chrome, composer still full remaining width */
+@media (min-width: 2560px) {
+  :root {
+    --sidebar-w: 300px;
+    --rail-w: 360px;
+    --composer-max: 56rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }
 
-@media (max-width: 1100px) {
-  .studio-body {
-    grid-template-columns: 1fr;
+/* 4K — denser side rails + capped composer measure so center doesn't become a void.
+   FHD unchanged (this MQ never fires at 1920). */
+@media (min-width: 3840px) {
+  :root {
+    --sidebar-w: 360px;
+    --rail-w: 420px;
+    --composer-max: 64rem;
   }
+
+  body {
+    font-size: 15px;
+  }
+
+  .login-card {
+    max-width: 28rem;
+  }
+}
+
+.composer-measure {
+  width: 100%;
+  max-width: var(--composer-max);
+  margin-inline: 0 auto;
 }
 
 .panel-surface {
@@ -183,7 +204,7 @@ a {
   border-radius: 999px;
   border: 1px solid transparent;
   padding: 0.45rem 0.9rem;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
   color: var(--text-muted);
   background: transparent;
@@ -193,7 +214,7 @@ a {
   color: #041512;
   background: var(--accent);
   border-color: var(--accent);
-  box-shadow: 0 0 24px rgba(94, 234, 212, 0.25);
+  box-shadow: 0 4px 14px rgba(45, 212, 191, 0.18);
 }
 
 .frame-drop {
@@ -220,16 +241,25 @@ a {
   background: linear-gradient(135deg, #5eead4, #2dd4bf);
   color: #041512;
   font-weight: 600;
-  box-shadow: 0 8px 28px rgba(45, 212, 191, 0.28);
+  box-shadow: 0 6px 20px rgba(45, 212, 191, 0.22);
 }
 
 .gen-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 12px 32px rgba(45, 212, 191, 0.38);
+  box-shadow: 0 8px 24px rgba(45, 212, 191, 0.3);
 }
 
 .gen-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+}
+
+.field-legend {
+  margin-bottom: 0.5rem;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }

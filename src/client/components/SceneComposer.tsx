@@ -37,23 +37,23 @@ const MODES: Array<{
   hint: string;
   icon: typeof Type;
 }> = [
-  { id: "text", label: "Text", hint: "Prompt only — no image roles", icon: Type },
+  { id: "text", label: "Text", hint: "Prompt only", icon: Type },
   {
     id: "first_frame",
     label: "First frame",
-    hint: "API role: first_frame · aspect locked to adaptive",
+    hint: "Start from an image · aspect follows the frame",
     icon: Frame,
   },
   {
     id: "first_last",
     label: "First + Last",
-    hint: "API roles: first_frame + last_frame — not reference_image",
+    hint: "Pin start and end frames",
     icon: Film,
   },
   {
     id: "references",
     label: "References",
-    hint: "API role: reference_image · cite with @imageN",
+    hint: "Character/style refs — cite @image1 in the prompt",
     icon: Images,
   },
 ];
@@ -260,8 +260,32 @@ export function SceneComposer({
     })),
   );
 
+  const generateBlockedReason = (): string | null => {
+    if (state.mode === "text" && !state.prompt.trim()) {
+      return "Add a prompt to generate";
+    }
+    if (state.mode === "first_frame" && !state.firstFrame) {
+      return "Add an opening frame";
+    }
+    if (
+      state.mode === "first_last" &&
+      (!state.firstFrame || !state.lastFrame)
+    ) {
+      return "Add both opening and closing frames";
+    }
+    if (state.mode === "references" && state.references.length === 0) {
+      return "Add at least one reference";
+    }
+    return null;
+  };
+
   const generate = async () => {
     if (!scene) return;
+    const blocked = generateBlockedReason();
+    if (blocked) {
+      setError(blocked);
+      return;
+    }
     setGenerating(true);
     setError(null);
     try {
@@ -381,6 +405,7 @@ export function SceneComposer({
 
   const isFrameMode = FRAME_MODES.has(state.mode);
   const activeMode = MODES.find((m) => m.id === state.mode);
+  const generateDisabled = generating || Boolean(generateBlockedReason());
 
   if (!scene) {
     return (
@@ -423,7 +448,8 @@ export function SceneComposer({
         </div>
       </div>
 
-      <div className="scroll-thin min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
+      <div className="scroll-thin min-h-0 flex-1 overflow-y-auto p-3">
+        <div className="composer-measure space-y-4">
         {activeMode ? (
           <p className="text-[12px] leading-relaxed text-[var(--text-muted)]">
             {activeMode.hint}
@@ -436,10 +462,13 @@ export function SceneComposer({
               <div className="text-[12px] font-medium text-[var(--text)]">
                 {state.mode === "first_frame" ? "Starting frame" : "Keyframe frames"}
               </div>
-              <p className="mt-0.5 text-[11px] text-[var(--text-faint)]">
-                Dedicated API roles — not sent as{" "}
-                <span className="font-mono text-accent">reference_image</span>. Aspect
-                ratio is locked to adaptive for Seedance 2.5.
+              <p className="mt-0.5 text-[12px] text-[var(--text-muted)]">
+                Drop the image that opens the shot
+                {state.mode === "first_last" ? " — and the one that closes it" : ""}.
+                Aspect follows the frame.
+              </p>
+              <p className="mt-0.5 text-[12px] text-[var(--text-muted)]">
+                Seedance frame mode
               </p>
             </div>
             <div
@@ -450,7 +479,7 @@ export function SceneComposer({
             >
               <FrameDropZone
                 title="First frame"
-                roleHint="role: first_frame"
+                roleHint="Opening frame"
                 item={state.firstFrame}
                 onPick={() => pickUpload("first_frame")}
                 onClear={() => update({ firstFrame: null })}
@@ -458,7 +487,7 @@ export function SceneComposer({
               {state.mode === "first_last" ? (
                 <FrameDropZone
                   title="Last frame"
-                  roleHint="role: last_frame"
+                  roleHint="Closing frame"
                   item={state.lastFrame}
                   onPick={() => pickUpload("last_frame")}
                   onClear={() => update({ lastFrame: null })}
@@ -475,10 +504,8 @@ export function SceneComposer({
                 <div className="text-[12px] font-medium text-[var(--text)]">
                   Reference images
                 </div>
-                <p className="mt-0.5 text-[11px] text-[var(--text-faint)]">
-                  Uploaded as{" "}
-                  <span className="font-mono text-accent">reference_image</span>. Click a
-                  thumb to insert{" "}
+                <p className="mt-0.5 text-[12px] text-[var(--text-muted)]">
+                  Character and style refs — click a thumb to insert{" "}
                   <span className="font-mono text-accent">@imageN</span> into the prompt.
                 </p>
               </div>
@@ -591,9 +618,7 @@ export function SceneComposer({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <fieldset className="panel-surface p-3">
-            <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-              Resolution
-            </legend>
+            <legend className="field-legend">Resolution</legend>
             <div className="flex flex-wrap gap-1.5">
               <ResChip
                 active={state.resolution === "480p"}
@@ -611,9 +636,7 @@ export function SceneComposer({
           </fieldset>
 
           <fieldset className="panel-surface p-3">
-            <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-              Duration
-            </legend>
+            <legend className="field-legend">Duration</legend>
             <div className="flex flex-wrap gap-1.5">
               {DURATION_CHIPS.map((d) => (
                 <button
@@ -669,9 +692,7 @@ export function SceneComposer({
           </fieldset>
 
           <fieldset className="panel-surface p-3">
-            <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-              Aspect ratio
-            </legend>
+            <legend className="field-legend">Aspect ratio</legend>
             {isFrameMode ? (
               <div className="space-y-1.5">
                 <button
@@ -681,8 +702,8 @@ export function SceneComposer({
                 >
                   adaptive
                 </button>
-                <p className="text-[11px] text-[var(--text-faint)]">
-                  Locked for first / last frame modes (Seedance 2.5).
+                <p className="text-[12px] text-[var(--text-muted)]">
+                  Locked — aspect follows the frame.
                 </p>
               </div>
             ) : (
@@ -707,9 +728,7 @@ export function SceneComposer({
           </fieldset>
 
           <fieldset className="panel-surface space-y-2 p-3">
-            <legend className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-faint)]">
-              Options
-            </legend>
+            <legend className="field-legend">Options</legend>
             <Toggle
               label="Generate audio"
               checked={state.generateAudio}
@@ -728,19 +747,21 @@ export function SceneComposer({
             {error}
           </div>
         ) : null}
+        </div>
       </div>
 
       <div className="flex items-center justify-between gap-2 border-t border-[var(--line)] bg-[var(--panel)] px-3 py-3">
         <button
           type="button"
           onClick={() => void persistScene(state)}
-          className="rounded-full border border-[var(--line)] px-4 py-2 text-[12px] text-[var(--text-muted)] hover:text-[var(--text)]"
+          className="text-[12px] text-[var(--text-muted)] hover:text-[var(--text)]"
         >
-          Save
+          Save now
         </button>
         <button
           type="button"
-          disabled={generating}
+          disabled={generateDisabled}
+          title={generateBlockedReason() ?? undefined}
           onClick={() => void generate()}
           className="gen-btn inline-flex items-center gap-2 px-6 py-2.5 text-[13px] transition-transform"
         >
@@ -845,7 +866,7 @@ function FrameDropZone({
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/75 to-transparent p-3">
           <div>
             <div className="text-[12px] font-medium text-white">{title}</div>
-            <div className="font-mono text-[10px] text-accent">{roleHint}</div>
+            <div className="text-[11px] text-white/75">{roleHint}</div>
           </div>
           <div className="flex gap-1">
             <button
@@ -876,7 +897,7 @@ function FrameDropZone({
       </div>
       <div>
         <div className="text-[13px] font-medium text-[var(--text)]">{title}</div>
-        <div className="mt-0.5 font-mono text-[10px] text-accent">{roleHint}</div>
+        <div className="mt-0.5 text-[11px] text-[var(--text-muted)]">{roleHint}</div>
         <div className="mt-1.5 text-[11px] text-[var(--text-faint)]">
           Click to upload image
         </div>

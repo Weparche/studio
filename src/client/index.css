@@ -50,6 +50,8 @@
   --sidebar-w: 240px;
   --rail-w: 300px;
   --composer-max: none;
+  /* 1 = FHD/laptop at 100%. Raised only on large CSS viewports (4K @ 100% OS). */
+  --ui-zoom: 1;
   --glow: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(94, 234, 212, 0.07), transparent 55%);
 }
 
@@ -58,9 +60,15 @@
 }
 
 html,
-body,
-#root {
+body {
   height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: calc(100% / var(--ui-zoom));
+  width: calc(100% / var(--ui-zoom));
+  zoom: var(--ui-zoom);
 }
 
 body {
@@ -70,7 +78,7 @@ body {
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -157,34 +165,73 @@ a {
   }
 }
 
-/* QHD — slightly roomier chrome, composer still full remaining width */
-@media (min-width: 2560px) {
-  :root {
-    --sidebar-w: 300px;
-    --rail-w: 360px;
-    --composer-max: 56rem;
-  }
+/* FHD (~1920) stays at --ui-zoom: 1 — no change vs laptop/desktop 1080p/1440p.
 
-  body {
-    font-size: 14px;
-  }
-}
+   27" 4K at 100% OS scale ≈ 3840 CSS px → text is physically tiny; match ~Chrome 125%.
+   If Windows already scales (e.g. 150% → ~2560 CSS px), use a milder bump. */
 
-/* 4K — denser side rails + capped composer measure so center doesn't become a void.
-   FHD unchanged (this MQ never fires at 1920). */
-@media (min-width: 3840px) {
+@media (min-width: 2400px) {
   :root {
-    --sidebar-w: 360px;
-    --rail-w: 420px;
-    --composer-max: 64rem;
+    --ui-zoom: 1.12;
+    --sidebar-w: 260px;
+    --rail-w: 320px;
+    --composer-max: 52rem;
   }
 
   body {
     font-size: 15px;
   }
 
+  .mode-pill {
+    font-size: 13px;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (min-width: 3000px) {
+  :root {
+    --ui-zoom: 1.18;
+    --sidebar-w: 280px;
+    --rail-w: 340px;
+    --composer-max: 56rem;
+  }
+
+  body {
+    font-size: 15.5px;
+  }
+}
+
+@media (min-width: 3600px) {
+  :root {
+    --ui-zoom: 1.25;
+    --sidebar-w: 300px;
+    --rail-w: 360px;
+    --composer-max: 60rem;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
   .login-card {
-    max-width: 28rem;
+    max-width: 26rem;
+  }
+
+  .mode-pill {
+    font-size: 13.5px;
+  }
+
+  .field-legend {
+    font-size: 13px;
+  }
+}
+
+/* Firefox has no zoom — approximate with scale */
+@supports not (zoom: 1) {
+  #root {
+    zoom: unset;
+    transform: scale(var(--ui-zoom));
+    transform-origin: top left;
   }
 }
 

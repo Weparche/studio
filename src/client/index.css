@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-surface-0: #070708;
+  --color-surface-1: #0c0c0e;
+  --color-surface-2: #121214;
+  --color-surface-3: #1a1a1d;
+  --color-surface-4: #222226;
+
+  --color-border: #2a2a2e;
+  --color-border-strong: #3a3a40;
+
+  --color-ink: #e8e6e3;
+  --color-ink-muted: #9a9894;
+  --color-ink-faint: #5c5a57;
+
+  --color-accent: #d4a05a;
+  --color-accent-hover: #e0b36f;
+  --color-accent-dim: rgba(212, 160, 90, 0.12);
+  --color-accent-border: rgba(212, 160, 90, 0.35);
+
+  --color-success: #5cb88a;
+  --color-warning: #d4a05a;
+  --color-danger: #d16b6b;
+  --color-info: #6a9fb5;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: var(--color-surface-0);
+  --panel: var(--color-surface-1);
+  --panel-raised: var(--color-surface-2);
+  --panel-hover: var(--color-surface-3);
+  --surface-4: var(--color-surface-4);
+  --line: var(--color-border);
+  --line-strong: var(--color-border-strong);
+  --text: var(--color-ink);
+  --text-muted: var(--color-ink-muted);
+  --text-faint: var(--color-ink-faint);
+  --accent: var(--color-accent);
+  --accent-hover: var(--color-accent-hover);
+  --accent-dim: var(--color-accent-dim);
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2e32;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3c3c42;
+}
+
+::selection {
+  background: var(--accent-dim);
+  color: var(--text);
+}
+
+.studio-grid {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 320px;
+  grid-template-rows: 44px minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 1024px) {
+  .studio-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    height: auto;
+    min-height: 100%;
+  }
+}

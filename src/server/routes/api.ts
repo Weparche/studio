@@ -8,6 +8,7 @@ import {
   destroySession,
   getSessionTokenFromRequest,
   sessionCookieHeader,
+  validateSession,
   verifyPassword,
 } from "../auth";
 import { createBytePlusProvider } from "../providers/byteplus-seedance";
@@ -66,10 +67,12 @@ api.get("/health", async (c) => {
 
 api.get("/auth/status", async (c) => {
   const required = authConfigured(c.env);
-  return c.json({
-    required,
-    authenticated: !required || c.get("authenticated") === true,
-  });
+  if (!required) {
+    return c.json({ required: false, authenticated: true });
+  }
+  const token = getSessionTokenFromRequest(c);
+  const authenticated = await validateSession(c.env, token);
+  return c.json({ required: true, authenticated });
 });
 
 api.post("/auth/login", async (c) => {

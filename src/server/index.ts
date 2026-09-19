@@ -25,7 +25,13 @@ app.use(
   }),
 );
 
-app.use("/api/*", cors({ origin: (origin) => origin || "*", credentials: true }));
+app.use(
+  "/api/*",
+  cors({
+    origin: (origin) => origin || "https://studio.nepar.hr",
+    credentials: true,
+  }),
+);
 
 app.use("*", async (c, next) => {
   // Signed media bypasses session auth; HMAC is the gate.

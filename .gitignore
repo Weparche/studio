@@ -18,3 +18,7 @@ smoke-out.txt
 *.hdr
 health.json
 auth.json
+
+.impeccable/live/
+.impeccable/critique/
+

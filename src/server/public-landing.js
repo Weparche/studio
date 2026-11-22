@@ -14,13 +14,13 @@ const PAGE = String.raw`<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071024">
-<title>NEPAR Studio — Tvoja ideja. Tvoj video.</title>
-<meta name="description" content="NEPAR Studio: izradi personalizirane videoporuke Djeda Božićnjaka i Svetog Nikole, Nuki video i istraži kreativne AI predloške. Pogledaj primjere i odaberi predložak.">
+<meta name="theme-color" content="#0b0a12">
+<title>NEPAR Studio — Zamisli video. Stvori ga.</title>
+<meta name="description" content="NEPAR Studio: stvaraj personalizirane videe iz predloška, pogledaj stvarne primjere i upoznaj AI kreativni studio za video sadržaj.">
 <link rel="canonical" href="https://studio.nepar.hr/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="NEPAR Studio — Tvoja ideja. Tvoj video.">
-<meta property="og:description" content="Odaberi predložak, personaliziraj ideju i stvori video koji ćeš poželjeti podijeliti.">
+<meta property="og:title" content="NEPAR Studio — Zamisli video. Stvori ga.">
+<meta property="og:description" content="Odaberi predložak, personaliziraj poruku i stvori originalan video. Studio Pro uskoro.">
 <meta property="og:url" content="https://studio.nepar.hr/">
 <meta property="og:image" content="https://kids.nepar.hr/assets/holidays/og-djed-bozicnjak.jpg">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -45,7 +45,46 @@ const PAGE = String.raw`<!doctype html>
 .hero{display:flex;flex-direction:column;gap:2px;text-align:center;min-height:auto;padding:16px 0 0}.hero-copy{padding:0}.eyebrow{font-size:10px}.hero h1{font-size:clamp(34px,8.9vw,46px);line-height:1.07;margin:11px 0 12px}.hero-copy>p{max-width:440px;font-size:12.5px;line-height:1.55;margin:auto}.hero-actions{justify-content:center;margin:17px auto 8px}.hero-actions .btn{font-size:12px;min-height:46px;padding:11px 22px}.hero-actions .btn-outline{display:none}.hero-art{width:100%;max-width:430px;margin:auto;min-height:206px;height:206px}.hero-person{height:90%;width:35%;bottom:-1px}.person-santa{left:5%}.person-nuki{width:41%;left:29%;height:81%;bottom:-1px}.person-nikola{right:4%}.hero-note{display:none}.trust{display:none}.section-head{margin:8px 0 12px}.section-head h2{font-size:19px}.section-head p{display:none}.template-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template{height:174px;border-radius:16px}.template img{object-position:50% 25%}.template-pro .clapper{font-size:66px}.tag{top:7px;left:7px;font-size:9px;padding:3px 7px}.card-content{inset:auto 9px 10px;gap:2px;padding-right:32px}.card-content strong{font-size:14px}.card-content small{font-size:10px}.circle-arrow{height:30px;width:30px;right:8px;bottom:9px;font-size:19px}.steps{display:none}.lower{display:flex;flex-direction:column;gap:10px}.examples{grid-template-columns:minmax(120px,.8fr) 1fr;gap:10px}.panel{padding:13px;border-radius:16px}.panel h2{font-size:17px}.panel p{font-size:11px}.mini-examples a{width:52px;height:39px}.price-grid{gap:9px}.features{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:14px 0 0;padding:10px 0}.features span{background:#101c34;border-radius:12px;padding:9px 6px;font-size:9px;min-height:61px;justify-content:center}.features span:nth-child(n+4){display:none}.features b{font-size:19px}.more{grid-template-columns:1fr}.mobile-bottom{display:grid;position:fixed;bottom:0;left:0;right:0;z-index:50;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:#091225f5;border-top:1px solid #334866;padding:8px max(5px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom));backdrop-filter:blur(14px)}.mobile-bottom a{display:flex;align-items:center;flex-direction:column;justify-content:center;gap:1px;min-height:47px;border-radius:13px;text-align:center;color:#bac5dc;font-size:9px;font-weight:850;text-decoration:none}.mobile-bottom a span{font-size:21px;line-height:1.15}.mobile-bottom a.active{color:var(--gold);background:#1c2c48}.mobile-bottom a.create{color:#091429}.mobile-bottom a.create span{background:linear-gradient(#ffe58b,#ffbd00);border-radius:50%;width:42px;height:42px;display:grid;place-items:center;color:#061226;font-size:23px;margin-top:-11px;box-shadow:0 5px 22px #ffc42265}.foot{padding-bottom:10px}}
 @media (max-width:360px){.site{padding-inline:10px}.hero-art{height:174px;min-height:174px}.template{height:160px}.hero-actions .btn{min-height:44px}.example-shot{aspect-ratio:1.17}.mini-examples{gap:4px}.mini-examples a{width:42px}.card-content strong{font-size:13px}.card-content small{font-size:9px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.template,.template img{transition:none}.btn:hover,.template:hover{transform:none}}
+
+/* NEPAR Studio public 2.0 — layout, accessibility and responsive polish */
+:root{--bg:#0b0a12;--panel:#171620;--line:#34313e;--text:#f7f5ff;--muted:#aea9bc;--gold:#b79aff;--ink:#171121;--shadow:0 22px 64px #0008}
+html{scroll-padding-top:100px}body{background:#090810;color:var(--text);font-family:Manrope,system-ui,-apple-system,sans-serif;font-size:14px}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 17% 0%,#41296055,transparent 40%),radial-gradient(ellipse at 90% 35%,#623a3a27,transparent 45%)}
+.site{max-width:1440px;margin:0 auto;min-height:100vh;border:0;border-radius:0;padding:0 clamp(22px,5vw,74px) 26px;box-shadow:none;background:transparent;overflow:visible}
+.header{height:88px;border-bottom:1px solid #302b3b;gap:28px}.brand{font-size:19px;font-weight:900;letter-spacing:-.035em}.brand strong{color:#bca5fc;text-transform:uppercase;letter-spacing:-.04em}.brandmark{background:#ede5ff;box-shadow:0 0 27px #8b65ec20;border-radius:11px;width:38px;height:38px}.brandmark svg path:first-child{fill:#1d1331}.brandmark svg path:nth-child(2){fill:#b390ff}
+.nav-links{gap:clamp(15px,2.2vw,33px)}.nav-links a{font-size:12px;color:#c9c5d4;font-weight:700}.nav-links a:hover,.nav-links a:focus-visible{border-color:#bca5fc;color:white}
+.btn{border-radius:12px;min-height:45px;font-weight:800}.btn-gold{background:#b99cff;box-shadow:0 6px 26px #a07bff35;color:#180e30}.btn-gold:hover{background:#ccb8ff}.btn-outline{border-color:#50465d;background:#1a1723;color:#f5f0ff}.head-actions .btn{font-size:12px}.site a:focus-visible,.site button:focus-visible,.site textarea:focus-visible{outline:3px solid #d6c3ff;outline-offset:4px}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(22px,4vw,64px);min-height:0;padding:64px 0 48px;align-items:center;isolation:isolate}
+.hero:before{background:radial-gradient(ellipse at 60% 35%,#b99cff13,transparent 61%)}
+.hero-copy{padding:0}.eyebrow{background:#291f3d;border:1px solid #5c4779;padding:8px 13px;color:#d9c8ff;font-size:10px;letter-spacing:.07em;text-transform:uppercase}.eyebrow b{color:#ffbf86}.hero h1{font-size:clamp(46px,5.4vw,80px);line-height:1.03;margin:20px 0 15px;letter-spacing:-.062em;font-weight:900}.hero h1 em{color:#c3aaff;font-style:normal}
+.hero-copy>p{max-width:550px;color:#cbc5d5;font-size:15px;line-height:1.7;margin:0 0 22px}.hero-copy .hero-lead{font-size:16px}.hero-actions{margin:0}.trust{display:flex;gap:14px;color:#aaa4bc;font-size:11px;margin-top:17px}.trust span{display:flex;gap:5px;align-items:center}.trust .ic{color:#c2a5ff;font-size:15px}
+.studio-entry{padding:17px;background:#191621;border:1px solid #4a3c56;border-radius:20px;box-shadow:0 18px 60px #0704107a;max-width:540px}.studio-entry h2{font-size:15px;letter-spacing:-.015em;margin:0 0 10px}
+.studio-tabs{display:flex;gap:5px;background:#0e0c14;border-radius:11px;padding:5px;margin-bottom:12px}.studio-tab{flex:1;background:transparent;border:0;color:#b7b0c7;padding:10px 8px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:850}.studio-tab[aria-selected="true"]{background:#3c2a58;color:#fff;box-shadow:inset 0 0 0 1px #76599f}
+.studio-panel[hidden]{display:none!important}.studio-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}.studio-choice{border:1px solid #3e364a;background:#23202c;border-radius:12px;padding:8px 7px;display:flex;align-items:center;gap:7px;cursor:pointer;text-align:left;color:#e9e4ef;font-weight:750;font-size:11px;min-width:0}.studio-choice img{width:30px;height:34px;border-radius:6px;object-fit:cover}.studio-choice[aria-pressed="true"]{border-color:#c3aaff;background:#37284c;box-shadow:0 0 0 1px #ad8cff77}.studio-choice:hover{background:#393044}
+.studio-cta{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:11px;background:#bca0ff;color:#1a0e2c;text-decoration:none;font-size:13px;font-weight:900;min-height:47px}.studio-cta:hover{background:#d1bcff}.studio-note{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 2px 0;color:#afa7c0;font-size:10px}.studio-note strong{color:#e5d5ff}.studio-request{width:100%;min-height:82px;resize:vertical;background:#0e0b15;border:1px solid #5c5167;border-radius:11px;color:white;padding:12px;line-height:1.5;margin:0 0 12px;font:inherit}.studio-request::placeholder{color:#8c829e}.studio-request-help{color:#ada5bb;font-size:11px;margin:0 0 12px;line-height:1.5}
+.hero-visual{min-height:516px;position:relative;isolation:isolate}.hero-visual:before{content:"";position:absolute;inset:12% 7% 4%;border-radius:50%;background:#9468e844;filter:blur(74px);z-index:-1}.visual-card{position:absolute;overflow:hidden;border-radius:22px;border:3px solid #30273e;box-shadow:0 25px 60px #000a;background:#2b2439}.visual-card img{width:100%;height:100%;object-fit:cover}.visual-card:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,#090811db)}.visual-card span{position:absolute;z-index:1;left:14px;bottom:14px;color:#fff;font-size:13px;font-weight:900}.visual-main{left:7%;top:0;width:55%;height:74%;transform:rotate(-5deg);z-index:2}.visual-right{right:1%;top:17%;width:45%;height:64%;transform:rotate(7deg);z-index:3}.visual-small{left:20%;bottom:0;width:48%;height:42%;transform:rotate(-1deg);z-index:4}.visual-chip{position:absolute;top:2%;right:0;border:1px solid #a088cb7b;background:#22182bea;border-radius:50px;padding:9px 14px;color:#e5d4ff;font-size:11px;font-weight:850;z-index:5}.visual-bottom{position:absolute;bottom:1%;right:0;border-radius:50px;background:#ffc693;color:#24120a;padding:8px 13px;font-size:10px;font-weight:850;z-index:5}
+.section-head{margin:8px 0 19px;align-items:center}.section-head h2{font-size:clamp(22px,2.5vw,30px);color:#f6f2ff}.section-head p{color:#bdb6c9;font-size:12px}
+.templates{scroll-margin-top:100px}.template-grid{gap:16px}.template{height:290px;border-color:#42374d;border-radius:19px;background:#1e1625}.template:before{background:linear-gradient(0deg,#0b0719 0%,#0b0719bc 32%,transparent 73%)}.template-nikola:before,.template-nuki:before{background:linear-gradient(0deg,#0b0719 0%,#0b0719bc 32%,transparent 73%)}.template-pro{background:radial-gradient(circle at 54% 34%,#7651ab,#32233f 55%,#171020)}.template-pro .clapper{filter:drop-shadow(0 10px 22px #180628);font-size:80px;top:60px}.tag{top:12px;left:12px;font-size:10px;background:#17131ad9;padding:5px 10px}.card-content{inset:auto 16px 17px;padding-right:30px}.card-content strong{font-size:19px}.card-content small{color:#d8ccdf;font-size:11px}.circle-arrow{background:#bea5fc!important;color:#180e29!important;height:33px;width:33px;font-size:19px;right:13px;bottom:16px}.template-pro .availability{display:inline-block;margin-top:5px;color:#e5c7ff;font-style:normal}
+.studio-categories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 38px}.studio-category{display:flex;gap:13px;align-items:center;border:1px solid #3b3447;background:#19151f;border-radius:16px;padding:17px;text-decoration:none;min-width:0}.studio-category:hover{border-color:#a78dcf;background:#241c30}.category-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#3e2e57;color:#dbc5ff;font-size:22px;flex:0 0 auto}.studio-category b{display:block;font-size:13px;line-height:1.25}.studio-category small{display:block;color:#a9a1b5;font-size:10px;line-height:1.4;margin-top:4px}
+.steps{grid-template-columns:1.1fr repeat(3,1fr);border:1px solid #45354e;background:#211a2d;color:#fbf8ff;box-shadow:none;padding:22px 25px;gap:13px;margin:34px 0}.steps-intro strong{font-size:24px}.steps-intro small{color:#c9bfd2;font-size:11px}.step-icon{background:#3b2c54;color:#d6bfff}.step-copy b{font-size:12px}.step-copy small{font-size:10px;color:#b9b2c2}.step-copy i{color:#d9c4ff}
+.lower{gap:18px;margin-top:20px}.panel{border:1px solid #383141;background:#19151f;padding:22px;border-radius:18px}.panel h2{font-size:21px}.panel p{font-size:12px;color:#bcb3c7}.example-shot{border-radius:14px}.play{background:#251936d9;border-color:#c8aaff}.mini-examples a{border-color:#5b4b6b}.pricing{background:#201927}.price-grid{gap:11px}.price{background:#292335;border:1px solid #594a6a;color:#f6f0ff;min-height:154px}.price.popular{background:#3d2a5c;border-color:#b59bea}.price strong{font-size:32px}.price .pill{border-color:#6b5e7f;color:#b7aac7}.popular .pill{background:#bca0ff;color:#160c25;border:0}.price-flag{background:#ffa966;color:#241109;font-weight:850}.price-availability{color:#c6bdd2}.price-availability a{color:#e4cdff}
+.audience{padding:46px 0 20px}.audience h2{font-size:clamp(24px,3vw,34px);margin:0 0 8px;letter-spacing:-.035em}.audience>p{color:#aaa4b8;margin:0 0 20px}.audience-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.audience-card{background:#19151e;border:1px solid #3c3148;border-radius:18px;padding:24px;min-height:155px}.audience-card>span{color:#c7aaff;font-size:24px}.audience-card h3{margin:8px 0;font-size:16px}.audience-card p{color:#aca3b9;font-size:12px;margin:0;line-height:1.65}
+.features{border-top-color:#3b3345;margin-top:27px}.features span{font-size:11px;color:#c8c0d4}.more{border-top-color:#3b3345;margin-top:28px;padding-top:24px}.more h2{font-size:22px}.more p{color:#bcb3cb;line-height:1.7}.more a{color:#cbb0ff}.faq details{border-color:#42384c;padding:13px 0}.faq summary{font-size:13px}.faq details p{font-size:12px}.foot{border-color:#3e344a}.foot a{color:#e0d2f3}.mobile-bottom{display:none}
+@media(max-width:1120px){.site{margin:0;padding:0 24px 25px}.hero{grid-template-columns:1.03fr .97fr;gap:20px;padding:46px 0}.hero h1{font-size:clamp(41px,5vw,62px)}.hero-visual{min-height:440px}.template{height:250px}}
+@media(max-width:760px){.site{padding:0 15px 82px}.header{height:61px;border-bottom-color:#33283d}.brand{font-size:17px}.brandmark{width:32px;height:32px}.mobile-menu summary{border-color:#5a466f;background:#21172c;font-size:19px}.mobile-menu[open] nav{background:#1a1523;border-color:#534260}
+.hero{display:block;padding:27px 0 22px;text-align:left}.hero-copy{padding:0}.eyebrow{font-size:9px;padding:6px 10px}.hero h1{font-size:clamp(34px,9.2vw,47px);line-height:1.08;margin:13px 0 9px}.hero-copy>p{font-size:12px;line-height:1.52;margin:0 0 15px}.hero-lead{font-size:12px!important}.studio-entry{max-width:none;border-radius:17px;padding:12px}.studio-entry h2{font-size:13px;margin-bottom:8px}.studio-tabs{margin-bottom:10px}.studio-tab{padding:9px;font-size:11px}.studio-picker{gap:6px;margin-bottom:11px}.studio-choice{font-size:9px;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;line-height:1.2;text-align:center;min-height:68px}.studio-choice img{width:37px;height:36px;border-radius:7px}.studio-cta{min-height:44px;font-size:12px}.studio-note{font-size:9px;margin-top:8px}.hero-visual{display:none}.trust{display:none}
+.section-head{margin:16px 0 12px}.section-head h2{font-size:20px}.section-head p{display:none}.template-grid{gap:10px}.template{height:208px;border-radius:14px}.card-content{inset:auto 10px 11px;padding-right:23px}.card-content strong{font-size:14px}.card-content small{font-size:9px}.tag{font-size:9px;top:8px;left:8px}.circle-arrow{width:27px;height:27px;bottom:10px;right:8px}.template-pro .clapper{font-size:62px;top:35px}
+.studio-categories{grid-template-columns:1fr;gap:8px;margin:18px 0 20px}.studio-category{padding:11px;border-radius:13px;gap:11px}.category-icon{width:38px;height:38px;font-size:20px}.studio-category small{margin-top:2px}
+.steps{display:grid;grid-template-columns:1fr;gap:13px;margin:20px 0;padding:17px}.steps-intro strong{font-size:20px}.steps-intro small{max-width:none}.step{gap:11px}.step-icon{width:38px;height:38px;flex-basis:38px;font-size:19px}
+.lower{margin-top:14px}.panel{padding:15px}.panel h2{font-size:19px}.price strong{font-size:26px}
+.audience{padding:26px 0 10px}.audience h2{font-size:24px}.audience-grid{grid-template-columns:1fr;gap:9px}.audience-card{padding:16px;min-height:0}.audience-card>span{font-size:20px}.audience-card h3{font-size:14px;margin:4px 0}.audience-card p{font-size:11px}
+.features{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:15px}.features span{background:#211a2c}.more{grid-template-columns:1fr}.mobile-bottom{display:grid;grid-template-columns:1fr 1.45fr 1fr;background:#15101deb;border-color:#554265;gap:7px;padding:8px 13px calc(8px + env(safe-area-inset-bottom))}.mobile-bottom a{color:#d4c8df;font-size:10px;min-height:42px;gap:3px}.mobile-bottom a.active{background:transparent;color:#d5c0ff}.mobile-bottom a.create{background:#b99aff;border-radius:11px;color:#1c1030;font-size:12px;font-weight:900}.mobile-bottom a.create span{display:none}
+}
+@media(max-width:360px){.site{padding-inline:10px}.hero{padding-top:18px}.hero h1{font-size:33px}.template{height:177px}.studio-entry{padding:9px}.studio-choice img{width:34px;height:30px}.card-content strong{font-size:13px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.template,.template img{transition:none}}
+
 </style>
+<script src="/studio.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Preskoči na sadržaj</a>
@@ -53,23 +92,37 @@ const PAGE = String.raw`<!doctype html>
 <header class="header">
 <a class="brand" href="#top" aria-label="NEPAR Studio — Početna"><span class="brandmark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 5L27 16 5 27V5Z" fill="#0D2042"/><path d="M8 8L21 16 8 24V8Z" fill="#FFD83D"/><path d="M6 7L15 11V21L6 25V7Z" fill="#F9A300"/></svg></span><span>NEPAR <strong>Studio</strong></span></a>
 <nav class="nav-links" aria-label="Glavna navigacija"><a href="#top" aria-current="page">Početna</a><a href="#predlosci">Predlošci</a><a href="#kako-radi">Kako radi</a><a href="#cijene">Cijene</a><a href="#primjeri">Primjeri</a><a href="#faq">FAQ</a></nav>
-<div class="head-actions"><a class="btn btn-outline" href="https://kids.nepar.hr/">NEPAR Kids</a><a class="btn btn-gold" href="#predlosci">✦ Izradi video</a></div>
+<div class="head-actions"><a class="btn btn-outline" href="https://kids.nepar.hr/">NEPAR Kids</a><a class="btn btn-gold" href="#izradi">✦ Započni stvarati</a></div>
 <details class="mobile-menu"><summary aria-label="Otvori izbornik">☰</summary><nav aria-label="Mobilni izbornik"><a href="#predlosci">Predlošci</a><a href="#primjeri">Primjeri</a><a href="#kako-radi">Kako radi</a><a href="#cijene">Cijene</a><a href="#faq">Pomoć</a><a href="https://kids.nepar.hr/">NEPAR Kids</a></nav></details>
 </header>
 <main id="main">
 <section class="hero" aria-labelledby="hero-title">
 <div class="hero-copy">
-<span class="eyebrow"><b>✦</b> AI video studio za djecu i kreativce</span>
-<h1 id="hero-title">Tvoja ideja.<br>Tvoj <em>video.</em></h1>
-<p>Personalizirane videoporuke Djeda Božićnjaka i Svetog Nikole, zabavne Nuki avanture i napredni AI alati na jednom mjestu — NEPAR Studio.</p>
-<div class="hero-actions"><a class="btn btn-gold" href="#predlosci">✦ Odaberi predložak</a><a class="btn btn-outline" href="#primjeri">▶ Pogledaj primjer</a></div>
-<div class="trust" aria-label="Prednosti"><span><span class="ic">⚡</span> Brz početak<br>bez kompliciranja</span><span><span class="ic">♢</span> Sigurna kartična<br>naplata u trgovini</span><span><span class="ic">♥</span> Originalni<br>personalizirani pokloni</span></div>
+<span class="eyebrow"><b>✦</b> AI kreativni studio</span>
+<h1 id="hero-title">Zamisli video.<br><em>Stvori ga.</em></h1>
+<p class="hero-lead">Odaberi predložak, personaliziraj poruku ili pripremi vlastitu ideju. Jednostavno, na hrvatskom i bez montaže.</p>
+<div class="studio-entry" id="izradi" aria-label="Započni izradu videa">
+<h2>Kako želiš započeti?</h2>
+<div class="studio-tabs" role="tablist" aria-label="Način izrade"><button class="studio-tab" role="tab" id="tab-template" aria-controls="panel-template" aria-selected="true" type="button" data-studio-mode="template">▦ Iz predloška</button><button class="studio-tab" role="tab" id="tab-free" aria-controls="panel-free" aria-selected="false" type="button" data-studio-mode="free">✦ Od nule <span class="visually-hidden">(uskoro)</span></button></div>
+<div class="studio-panel" id="panel-template" role="tabpanel" aria-labelledby="tab-template">
+<div class="studio-picker" role="group" aria-label="Odaberi video">
+<button class="studio-choice" type="button" data-template="santa" aria-pressed="true"><img src="/img/santa.webp" width="40" height="44" alt="">Djed Božićnjak</button>
+<button class="studio-choice" type="button" data-template="nikola" aria-pressed="false"><img src="/img/nikola.webp" width="40" height="44" alt="">Sveti Nikola</button>
+<button class="studio-choice" type="button" data-template="nuki" aria-pressed="false"><img src="/img/nuki.webp" width="40" height="44" alt="">Nuki video</button>
 </div>
-<div class="hero-art" aria-label="Djed Božićnjak, Nuki i Sveti Nikola"><div class="sky"></div><div class="snow"></div>
-<img class="hero-person person-santa" src="/img/santa.webp" alt="Realistični Djed Božićnjak" width="480" height="650" fetchpriority="high">
-<img class="hero-person person-nuki" src="/img/nukipromo.webp" alt="Nuki, veseli pas" width="480" height="650" fetchpriority="high">
-<img class="hero-person person-nikola" src="/img/nikola.webp" alt="Sveti Nikola s mitrom" width="480" height="650" fetchpriority="high">
-<div class="art-glow"></div><div class="hero-note">✦ TVOJA PRIČA POČINJE OVDJE</div></div>
+<a class="studio-cta" id="studio-create" href="https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak">Nastavi s predloškom <span aria-hidden="true">→</span></a>
+<div class="studio-note"><span id="studio-selected" aria-live="polite">Odabrano: Djed Božićnjak</span><span>Personalizacija na NEPAR Kidsu</span></div>
+</div>
+<div class="studio-panel" id="panel-free" role="tabpanel" aria-labelledby="tab-free" hidden>
+<label for="studio-idea" class="visually-hidden">Opiši svoj video</label>
+<textarea id="studio-idea" class="studio-request" maxlength="1200" placeholder="Primjer: Kratka reklama za moju slastičarnicu, toplog filmskog stila..."></textarea>
+<p class="studio-request-help">Napredna generacija iz vlastite ideje još je u pripremi. Opiši ideju i zatraži rani pristup; ovdje se zasad ne naplaćuje niti generira video.</p>
+<a class="studio-cta" id="studio-request-link" href="mailto:nepar@nepar.hr?subject=Rani%20pristup%20NEPAR%20Studio%20Pro">Zatraži rani pristup <span aria-hidden="true">→</span></a>
+</div>
+</div>
+<div class="trust"><span><span class="ic">✓</span> Stvarni video primjeri</span><span><span class="ic">✓</span> Bez učitavanja fotografija djece</span></div>
+</div>
+<div class="hero-visual" aria-label="Primjeri predložaka"><div class="visual-card visual-main"><img src="/img/santa.webp" width="500" height="650" alt="Djed Božićnjak u božićnom ambijentu" fetchpriority="high"><span>Personalizirane čestitke</span></div><div class="visual-card visual-right"><img src="/img/nikola.webp" width="500" height="650" alt="Sveti Nikola" fetchpriority="high"><span>Posebni trenuci</span></div><div class="visual-card visual-small"><img src="/img/nukipromo.webp" width="500" height="650" alt="Nuki, glavni junak dječjih priča" fetchpriority="high"><span>Nuki avanture</span></div><span class="visual-chip">✦ Kreirano uz AI</span><span class="visual-bottom">Od ideje do videa</span></div>
 </section>
 <section class="templates" id="predlosci" aria-labelledby="templates-title">
 <div class="section-head"><h2 id="templates-title">Odaberi predložak</h2><p>Od ideje do videa, bez kompliciranja</p></div>
@@ -79,6 +132,11 @@ const PAGE = String.raw`<!doctype html>
 <a class="template template-nuki" href="https://kids.nepar.hr/personaliziraj?gift=video" aria-label="Izradi Nuki video u NEPAR Kidsu"><img loading="lazy" src="/img/nuki.webp" alt="Nuki u svojoj avanturi" width="480" height="480"><span class="tag">▶ Nuki</span><span class="card-content"><strong>Nuki video</strong><small>Zabavna animirana priča s Nukijem</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
 <a class="template template-pro" href="#pro" aria-label="Informacije o NEPAR Studio Pro"><span class="clapper" aria-hidden="true">🎬</span><span class="tag">✦ Pro</span><span class="card-content"><strong>NEPAR Studio Pro</strong><small>Napredni AI alati za video, slike i reklame<br><em class="availability">U pripremi</em></small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
 </div></section>
+<div class="studio-categories" aria-label="Načini izrade">
+<a class="studio-category" href="#predlosci"><span class="category-icon" aria-hidden="true">▦</span><span><b>Video iz predloška</b><small>Gotov scenarij, tvoji detalji</small></span></a>
+<a class="studio-category" href="#pro"><span class="category-icon" aria-hidden="true">✦</span><span><b>Oživi fotografiju</b><small>Image-to-video · U pripremi</small></span></a>
+<a class="studio-category" href="#za-koga"><span class="category-icon" aria-hidden="true">◈</span><span><b>Reklamni video</b><small>Za obrte, tvrtke i kreatore · U pripremi</small></span></a>
+</div>
 <section class="steps" id="kako-radi" aria-label="Kako radi NEPAR Studio">
 <div class="steps-intro"><strong>Kako radi?</strong><small>Od ideje do gotovog sadržaja u samo 3 koraka.</small></div>
 <div class="step"><span class="step-icon" aria-hidden="true">▦</span><span class="step-copy"><b>1. Odaberi predložak</b><small>Djed, Nikola, Nuki ili Pro</small></span></div>
@@ -96,13 +154,14 @@ const PAGE = String.raw`<!doctype html>
 <a href="#pro" aria-label="Informacije o Studio Pro" style="display:grid;place-items:center;background:#4b2a88;text-decoration:none;color:white;font-size:20px">▶</a>
 </div></div>
 </div>
-<div class="panel pricing" id="cijene"><h2>Jednostavne cijene</h2><p>Kreditni paketi koje pripremamo za javni Studio.</p>
+<div class="panel pricing" id="cijene"><h2>Jednostavne cijene</h2><p>Predloženi paketi za budući Studio Pro — još nisu dostupni.</p>
 <div class="price-grid">
-<div class="price"><span class="price-label">100 kredita</span><strong>9,90 €</strong><small>Plan: 1 AI video od 15 s</small><span class="pill">U pripremi</span></div>
-<div class="price popular"><span class="price-flag">Bolja vrijednost</span><span class="price-label">200 kredita</span><strong>14,90 €</strong><small>Plan: 2 AI videa od 15 s</small><span class="pill">U pripremi</span></div>
+<div class="price"><span class="price-label">100 kredita</span><strong>9,90 €</strong><small>Predloženi paket · još nije u prodaji</small><span class="pill">U pripremi</span></div>
+<div class="price popular"><span class="price-flag">Bolja vrijednost</span><span class="price-label">200 kredita</span><strong>14,90 €</strong><small>Predloženi paket · još nije u prodaji</small><span class="pill">U pripremi</span></div>
 </div><p class="price-availability">Ovi paketi još nisu dostupni za kupnju. <a href="https://kids.nepar.hr/#pokloni">Dostupne personalizirane poklone kupi na NEPAR Kidsu.</a></p>
 </div></section>
 <div class="features" aria-label="Mogućnosti studija"><span><b>▣</b> Videi prilagođeni<br>za mobitel</span><span><b>♫</b> Personalizirani<br>govor i glazba</span><span><b>✧</b> Gotovi predlošci<br>za brz početak</span><span><b>∞</b> Napredne ideje<br>u Pro verziji</span><span><b>♢</b> Sigurna naplata<br>kod narudžbe</span></div>
+<section class="audience" id="za-koga" aria-labelledby="audience-title"><h2 id="audience-title">Za ideje koje zaslužuju biti viđene.</h2><p>Od personaliziranog poklona do sadržaja za društvene mreže.</p><div class="audience-grid"><article class="audience-card"><span aria-hidden="true">♡</span><h3>Za obitelji</h3><p>Personalizirane poruke Djeda Božićnjaka i Svetog Nikole te Nuki avanture. Dostupno putem NEPAR Kidsa.</p></article><article class="audience-card"><span aria-hidden="true">◎</span><h3>Za kreatore</h3><p>Inspiracija za kratke videe, kreativne scene i sadržaj za društvene mreže. Napredni alati dolaze uskoro.</p></article><article class="audience-card"><span aria-hidden="true">◈</span><h3>Za poduzetnike</h3><p>Ideje za videooglase, predstavljanje proizvoda i brendirani sadržaj. Studio Pro je u pripremi.</p></article></div></section>
 <section class="more"><div id="pro"><h2>NEPAR Studio Pro</h2><p>Pripremamo napredni editor za višescenske projekte, generiranje slika i videooglase. Ova je mogućnost još u razvoju i nije javno dostupna.</p><a href="mailto:nepar@nepar.hr?subject=NEPAR%20Studio%20Pro">Zatraži informacije o pristupu</a></div>
 <div class="faq" id="faq"><h2>Česta pitanja</h2>
 <details><summary>Mogu li prije kupnje vidjeti primjer?</summary><p>Da. Poveznice na primjer Djeda i Nikole vode na NEPAR Kids, a Nuki ima javni video na YouTubeu.</p></details>
@@ -113,11 +172,49 @@ const PAGE = String.raw`<!doctype html>
 </main>
 <footer class="foot"><span>© 2026 NEPAR Studio · Digitalna rješenja NEPAR</span><span><a href="https://kids.nepar.hr/privatnost">Privatnost</a><a href="https://kids.nepar.hr/uvjeti">Uvjeti</a><a href="mailto:nepar@nepar.hr">Kontakt</a></span></footer>
 </div>
-<nav class="mobile-bottom" aria-label="Brza mobilna navigacija"><a class="active" href="#top" aria-current="page"><span aria-hidden="true">⌂</span>Početna</a><a href="#predlosci"><span aria-hidden="true">▦</span>Predlošci</a><a class="create" href="#predlosci"><span aria-hidden="true">▶</span>Izradi</a><a href="#cijene"><span aria-hidden="true">€</span>Cijene</a><a href="#faq"><span aria-hidden="true">☰</span>Pomoć</a></nav>
+<nav class="mobile-bottom" aria-label="Brza mobilna navigacija"><a class="active" href="#top"><span aria-hidden="true">⌂</span>Početna</a><a class="create" href="#izradi">Započni stvarati</a><a href="#predlosci"><span aria-hidden="true">▦</span>Predlošci</a></nav>
 </body></html>`;
+const STUDIO_JS = String.raw`const templates = {
+  santa:{name:"Djed Božićnjak",url:"https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak"},
+  nikola:{name:"Sveti Nikola",url:"https://kids.nepar.hr/personaliziraj?gift=sveti-nikola"},
+  nuki:{name:"Nuki video",url:"https://kids.nepar.hr/personaliziraj?gift=video"}
+};
+const tabs=Array.from(document.querySelectorAll("[data-studio-mode]"));
+const panels={template:document.getElementById("panel-template"),free:document.getElementById("panel-free")};
+for(const tab of tabs){
+  tab.addEventListener("click",()=>{
+    const mode=tab.dataset.studioMode;
+    for(const other of tabs){other.setAttribute("aria-selected",String(other===tab));other.tabIndex=other===tab?0:-1;}
+    panels.template.hidden=mode!=="template";
+    panels.free.hidden=mode!=="free";
+  });
+  tab.addEventListener("keydown",e=>{
+    if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;
+    e.preventDefault();
+    const next=tabs[(tabs.indexOf(tab)+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];
+    next.focus();next.click();
+  });
+}
+for(const choice of document.querySelectorAll("[data-template]")){
+  choice.addEventListener("click",()=>{
+    const value=templates[choice.dataset.template];
+    if(!value)return;
+    for(const other of document.querySelectorAll("[data-template]"))other.setAttribute("aria-pressed",String(other===choice));
+    document.getElementById("studio-create").href=value.url;
+    document.getElementById("studio-selected").textContent="Odabrano: "+value.name;
+  });
+}
+const idea=document.getElementById("studio-idea");
+const email=document.getElementById("studio-request-link");
+if(idea&&email)idea.addEventListener("input",()=>{
+  const subject="Rani pristup NEPAR Studio Pro";
+  const body=idea.value.trim()?"Pozdrav, zanima me rani pristup NEPAR Studio Pro.\\n\\nMoja ideja:\\n"+idea.value.trim():"Pozdrav, zanima me rani pristup NEPAR Studio Pro.";
+  email.href="mailto:nepar@nepar.hr?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+});
+`;
 const FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#071326"/><path d="M12 11L55 32 12 53V11Z" fill="#ffcb23"/><path d="M20 20L42 32 20 44V20Z" fill="#09182e"/></svg>';
 const H = {
-  'content-security-policy': "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; media-src https://kids.nepar.hr; upgrade-insecure-requests",
+  'content-security-policy': "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; media-src https://kids.nepar.hr; upgrade-insecure-requests",
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
   'x-frame-options': 'DENY',
@@ -131,10 +228,11 @@ export default {
     let body, type, status=200, cache='public, max-age=120';
     if (Object.prototype.hasOwnProperty.call(IMAGES,path)) { const b64=IMAGES[path]; const imageBytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)); return new Response(request.method==='HEAD'?null:imageBytes,{status:200,headers:{...H,'content-type':'image/webp','cache-control':'public, max-age=604800'}}); }
     if (path === '/' || path === '/index.html') { body=PAGE;type='text/html; charset=utf-8'; }
+    else if (path === '/studio.js') { body=STUDIO_JS;type='application/javascript; charset=utf-8';cache='public, max-age=300'; }
     else if (path === '/favicon.svg') {body=FAVICON;type='image/svg+xml';cache='public, max-age=86400';}
     else if (path === '/robots.txt') {body='User-agent: *\nAllow: /\nSitemap: https://studio.nepar.hr/sitemap.xml\n';type='text/plain; charset=utf-8';}
     else if (path === '/sitemap.xml') {body='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://studio.nepar.hr/</loc></url></urlset>';type='application/xml; charset=utf-8';}
-    else if (path === '/healthz') {body=JSON.stringify({ok:true,app:'nepar-studio-public',version:'2026.11.22'});type='application/json';cache='no-store';}
+    else if (path === '/healthz') {body=JSON.stringify({ok:true,app:'nepar-studio-public',version:'2026.11.23'});type='application/json';cache='no-store';}
     else {status=404;body='Stranica nije pronađena.';type='text/plain; charset=utf-8';cache='no-store';}
     return new Response(request.method === 'HEAD' ? null : body,{status,headers:{...H,'content-type':type,'cache-control':cache}});
   }

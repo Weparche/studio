@@ -24,7 +24,7 @@ for(const part of [
 ])assert.ok(html.includes(part),'Missing UI: '+part);
 assert.equal((html.match(/<section class="templates"/g)||[]).length,1);
 assert.equal((html.match(/class="template template-/g)||[]).length,4);
-assert.equal((html.match(/class="capability /g)||[]).length,4);
+assert.equal((html.match(/class="capability(?:\s|")/g)||[]).length,4);
 assert.match(html,/@media\(max-width:760px\)/);
 assert.match(html,/@media\(max-width:365px\)/);
 assert.ok(!html.includes('id="private-api"'));

@@ -294,6 +294,12 @@ body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),
 @media(min-width:761px){
 .figure-nuki{-webkit-mask-image:linear-gradient(135deg,transparent 6%,#000 40%);mask-image:linear-gradient(135deg,transparent 6%,#000 40%)}
 }
+
+/* Separate faces cleanly: Santa sits further left, Nuki remains fully opaque. */
+@media(min-width:761px){
+.figure-santa{left:-16%}
+.figure-nuki{-webkit-mask-image:none;mask-image:none}
+}
 </style>
 <script src="/studio.js" defer></script>
 </head>

@@ -1,10 +1,11 @@
-name: Deploy
-
+name: Verify NEPAR Studio public landing
 on:
+  pull_request:
   push:
     branches: [main]
   workflow_dispatch:
-
+permissions:
+  contents: read
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -15,8 +16,6 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci --legacy-peer-deps
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run build
-  # Production deploy remains via authenticated wrangler locally / Cloudflare dashboard.
-  # Avoid dual competing deploy pipelines without CLOUDFLARE_API_TOKEN in GitHub.
+      - run: node --check src/server/public-landing.js
+      - run: node scripts/test-public-landing.mjs
+      - run: npx wrangler deploy --dry-run

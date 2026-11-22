@@ -308,6 +308,8 @@ body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),
 .example-shot{aspect-ratio:16/9}
 }
 
+
+@media(max-width:760px){.hero-showcase{right:-14px}}
 </style>
 <script src="/studio.js" defer></script>
 </head>

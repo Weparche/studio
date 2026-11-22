@@ -300,6 +300,14 @@ body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),
 .figure-santa{left:-16%}
 .figure-nuki{-webkit-mask-image:none;mask-image:none}
 }
+
+/* Responsive QA: eliminate width overflow from inherited hero background and compact examples. */
+.hero::before{left:0;right:0;width:100%;max-width:100%}
+@media(max-width:360px){
+.examples{grid-template-columns:minmax(0,1fr);gap:11px}
+.example-shot{aspect-ratio:16/9}
+}
+
 </style>
 <script src="/studio.js" defer></script>
 </head>

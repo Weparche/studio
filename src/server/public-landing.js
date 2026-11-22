@@ -4,7 +4,7 @@
  * The former private app remains recoverable in Git history and Cloudflare deployments.
  * All commerce links open existing live NEPAR Kids product flows.
  */
-const PAGE = String.raw\`<!doctype html>
+const PAGE = String.raw`<!doctype html>
 <html lang="hr">
 <head>
 <meta charset="utf-8">
@@ -109,7 +109,7 @@ const PAGE = String.raw\`<!doctype html>
 <footer class="foot"><span>© 2026 NEPAR Studio · Digitalna rješenja NEPAR</span><span><a href="https://kids.nepar.hr/privatnost">Privatnost</a><a href="https://kids.nepar.hr/uvjeti">Uvjeti</a><a href="mailto:nepar@nepar.hr">Kontakt</a></span></footer>
 </div>
 <nav class="mobile-bottom" aria-label="Brza mobilna navigacija"><a class="active" href="#top" aria-current="page"><span aria-hidden="true">⌂</span>Početna</a><a href="#predlosci"><span aria-hidden="true">▦</span>Predlošci</a><a class="create" href="#predlosci"><span aria-hidden="true">▶</span>Izradi</a><a href="#cijene"><span aria-hidden="true">€</span>Cijene</a><a href="#faq"><span aria-hidden="true">☰</span>Pomoć</a></nav>
-</body></html>\`;
+</body></html>`;
 const FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#071326"/><path d="M12 11L55 32 12 53V11Z" fill="#ffcb23"/><path d="M20 20L42 32 20 44V20Z" fill="#09182e"/></svg>';
 const H = {
   'content-security-policy': "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://kids.nepar.hr data:; connect-src 'none'; media-src https://kids.nepar.hr; upgrade-insecure-requests",

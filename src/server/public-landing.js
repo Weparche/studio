@@ -450,6 +450,8 @@ function setPicker(open){
  picker.hidden=!open;
  search.setAttribute("aria-expanded",String(open));
  toggle.setAttribute("aria-expanded",String(open));
+ const hero=document.querySelector(".hero");
+ if(hero)hero.style.zIndex=open?"15":"";
 }
 function chooseTemplate(key){
  const t=templates[key];if(!t)return;

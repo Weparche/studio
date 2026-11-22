@@ -1,3 +1,8 @@
+import santaImage from './public-asset-santa.js';
+import nikolaImage from './public-asset-nikola.js';
+import nukiImage from './public-asset-nuki.js';
+import nukiPromoImage from './public-asset-nukipromo.js';
+const IMAGES = Object.freeze({'/img/santa.webp':santaImage,'/img/nikola.webp':nikolaImage,'/img/nuki.webp':nukiImage,'/img/nukipromo.webp':nukiPromoImage});
 /**
  * NEPAR Studio public landing (studio.nepar.hr).
  * This Worker intentionally exposes no former Series Studio API, D1, R2 or credentials.
@@ -61,17 +66,17 @@ const PAGE = String.raw`<!doctype html>
 <div class="trust" aria-label="Prednosti"><span><span class="ic">⚡</span> Brz početak<br>bez kompliciranja</span><span><span class="ic">♢</span> Sigurna kartična<br>naplata u trgovini</span><span><span class="ic">♥</span> Originalni<br>personalizirani pokloni</span></div>
 </div>
 <div class="hero-art" aria-label="Djed Božićnjak, Nuki i Sveti Nikola"><div class="sky"></div><div class="snow"></div>
-<img class="hero-person person-santa" src="https://kids.nepar.hr/assets/holidays/djed-bozicnjak.webp" alt="Realistični Djed Božićnjak" width="480" height="650" fetchpriority="high">
-<img class="hero-person person-nuki" src="https://kids.nepar.hr/assets/shop/nuki-promo.webp" alt="Nuki, veseli pas" width="480" height="650" fetchpriority="high">
-<img class="hero-person person-nikola" src="https://kids.nepar.hr/assets/holidays/sveti-nikola.webp" alt="Sveti Nikola s mitrom" width="480" height="650" fetchpriority="high">
+<img class="hero-person person-santa" src="/img/santa.webp" alt="Realistični Djed Božićnjak" width="480" height="650" fetchpriority="high">
+<img class="hero-person person-nuki" src="/img/nukipromo.webp" alt="Nuki, veseli pas" width="480" height="650" fetchpriority="high">
+<img class="hero-person person-nikola" src="/img/nikola.webp" alt="Sveti Nikola s mitrom" width="480" height="650" fetchpriority="high">
 <div class="art-glow"></div><div class="hero-note">✦ TVOJA PRIČA POČINJE OVDJE</div></div>
 </section>
 <section class="templates" id="predlosci" aria-labelledby="templates-title">
 <div class="section-head"><h2 id="templates-title">Odaberi predložak</h2><p>Od ideje do videa, bez kompliciranja</p></div>
 <div class="template-grid">
-<a class="template template-santa" href="https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak" aria-label="Izradi video Djeda Božićnjaka u NEPAR Kidsu"><img loading="lazy" src="https://kids.nepar.hr/assets/holidays/djed-bozicnjak.webp" alt="Djed Božićnjak" width="480" height="480"><span class="tag">▶ 15 s</span><span class="card-content"><strong>Djed Božićnjak</strong><small>Personalizirana videoporuka za tvoje dijete</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
-<a class="template template-nikola" href="https://kids.nepar.hr/personaliziraj?gift=sveti-nikola" aria-label="Izradi video Svetog Nikole u NEPAR Kidsu"><img loading="lazy" src="https://kids.nepar.hr/assets/holidays/sveti-nikola.webp" alt="Sveti Nikola" width="480" height="480"><span class="tag">▶ 15 s</span><span class="card-content"><strong>Sveti Nikola</strong><small>Videočestitka s imenom i osobnom porukom</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
-<a class="template template-nuki" href="https://kids.nepar.hr/personaliziraj?gift=video" aria-label="Izradi Nuki video u NEPAR Kidsu"><img loading="lazy" src="https://kids.nepar.hr/assets/gifts/nuki-youtube.webp" alt="Nuki u svojoj avanturi" width="480" height="480"><span class="tag">▶ Nuki</span><span class="card-content"><strong>Nuki video</strong><small>Zabavna animirana priča s Nukijem</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
+<a class="template template-santa" href="https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak" aria-label="Izradi video Djeda Božićnjaka u NEPAR Kidsu"><img loading="lazy" src="/img/santa.webp" alt="Djed Božićnjak" width="480" height="480"><span class="tag">▶ 15 s</span><span class="card-content"><strong>Djed Božićnjak</strong><small>Personalizirana videoporuka za tvoje dijete</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
+<a class="template template-nikola" href="https://kids.nepar.hr/personaliziraj?gift=sveti-nikola" aria-label="Izradi video Svetog Nikole u NEPAR Kidsu"><img loading="lazy" src="/img/nikola.webp" alt="Sveti Nikola" width="480" height="480"><span class="tag">▶ 15 s</span><span class="card-content"><strong>Sveti Nikola</strong><small>Videočestitka s imenom i osobnom porukom</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
+<a class="template template-nuki" href="https://kids.nepar.hr/personaliziraj?gift=video" aria-label="Izradi Nuki video u NEPAR Kidsu"><img loading="lazy" src="/img/nuki.webp" alt="Nuki u svojoj avanturi" width="480" height="480"><span class="tag">▶ Nuki</span><span class="card-content"><strong>Nuki video</strong><small>Zabavna animirana priča s Nukijem</small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
 <a class="template template-pro" href="#pro" aria-label="Informacije o NEPAR Studio Pro"><span class="clapper" aria-hidden="true">🎬</span><span class="tag">✦ Pro</span><span class="card-content"><strong>NEPAR Studio Pro</strong><small>Napredni AI alati za video, slike i reklame<br><em class="availability">U pripremi</em></small></span><span class="circle-arrow" aria-hidden="true">›</span></a>
 </div></section>
 <section class="steps" id="kako-radi" aria-label="Kako radi NEPAR Studio">
@@ -82,12 +87,12 @@ const PAGE = String.raw`<!doctype html>
 </section>
 <section class="lower" aria-label="Primjeri i cijene">
 <div class="panel examples" id="primjeri">
-<a class="example-shot" href="https://www.youtube.com/watch?v=q8IxwgI6xPQ" target="_blank" rel="noopener noreferrer" aria-label="Pogledaj Nuki video na YouTubeu"><img loading="lazy" src="https://kids.nepar.hr/assets/gifts/nuki-youtube.webp" alt="Isječak iz pjesmice Nuki, daj donesi Kuki!"><span class="play" aria-hidden="true">▶</span></a>
+<a class="example-shot" href="https://www.youtube.com/watch?v=q8IxwgI6xPQ" target="_blank" rel="noopener noreferrer" aria-label="Pogledaj Nuki video na YouTubeu"><img loading="lazy" src="/img/nuki.webp" alt="Isječak iz pjesmice Nuki, daj donesi Kuki!"><span class="play" aria-hidden="true">▶</span></a>
 <div><h2>Pogledaj <span style="color:var(--gold)">stvarne primjere</span></h2><p>Provjeri gotove videe prije nego što naručiš vlastiti. Nuki je na YouTubeu, a blagdanske poruke imaju video primjere.</p>
 <div class="mini-examples">
-<a href="https://kids.nepar.hr/djed-bozicnjak" aria-label="Pogledaj primjer Djeda Božićnjaka"><img src="https://kids.nepar.hr/assets/holidays/djed-bozicnjak.webp" alt="Djed Božićnjak" loading="lazy"></a>
-<a href="https://kids.nepar.hr/sveti-nikola" aria-label="Pogledaj primjer Svetog Nikole"><img src="https://kids.nepar.hr/assets/holidays/sveti-nikola.webp" alt="Sveti Nikola" loading="lazy"></a>
-<a href="https://www.youtube.com/watch?v=q8IxwgI6xPQ" target="_blank" rel="noopener noreferrer" aria-label="Pogledaj Nuki na YouTubeu"><img src="https://kids.nepar.hr/assets/gifts/nuki-youtube.webp" alt="Nuki" loading="lazy"></a>
+<a href="https://kids.nepar.hr/djed-bozicnjak" aria-label="Pogledaj primjer Djeda Božićnjaka"><img src="/img/santa.webp" alt="Djed Božićnjak" loading="lazy"></a>
+<a href="https://kids.nepar.hr/sveti-nikola" aria-label="Pogledaj primjer Svetog Nikole"><img src="/img/nikola.webp" alt="Sveti Nikola" loading="lazy"></a>
+<a href="https://www.youtube.com/watch?v=q8IxwgI6xPQ" target="_blank" rel="noopener noreferrer" aria-label="Pogledaj Nuki na YouTubeu"><img src="/img/nuki.webp" alt="Nuki" loading="lazy"></a>
 <a href="#pro" aria-label="Informacije o Studio Pro" style="display:grid;place-items:center;background:#4b2a88;text-decoration:none;color:white;font-size:20px">▶</a>
 </div></div>
 </div>
@@ -112,7 +117,7 @@ const PAGE = String.raw`<!doctype html>
 </body></html>`;
 const FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#071326"/><path d="M12 11L55 32 12 53V11Z" fill="#ffcb23"/><path d="M20 20L42 32 20 44V20Z" fill="#09182e"/></svg>';
 const H = {
-  'content-security-policy': "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://kids.nepar.hr data:; connect-src 'none'; media-src https://kids.nepar.hr; upgrade-insecure-requests",
+  'content-security-policy': "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; media-src https://kids.nepar.hr; upgrade-insecure-requests",
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
   'x-frame-options': 'DENY',
@@ -124,6 +129,7 @@ export default {
     if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed',{status:405,headers:{allow:'GET, HEAD',...H}});
     const path = url.pathname;
     let body, type, status=200, cache='public, max-age=120';
+    if (Object.prototype.hasOwnProperty.call(IMAGES,path)) { const b64=IMAGES[path]; const imageBytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)); return new Response(request.method==='HEAD'?null:imageBytes,{status:200,headers:{...H,'content-type':'image/webp','cache-control':'public, max-age=604800'}}); }
     if (path === '/' || path === '/index.html') { body=PAGE;type='text/html; charset=utf-8'; }
     else if (path === '/favicon.svg') {body=FAVICON;type='image/svg+xml';cache='public, max-age=86400';}
     else if (path === '/robots.txt') {body='User-agent: *\nAllow: /\nSitemap: https://studio.nepar.hr/sitemap.xml\n';type='text/plain; charset=utf-8';}

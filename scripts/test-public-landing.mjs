@@ -13,8 +13,8 @@ assert.ok(html.length>45000,'Full responsive cinematic landing should be built')
 for(const part of [
   'TVOJ AI VIDEO STUDIO','Zamisli video.','Stvori ga s','NEPAR Studijem.',
   'studio-capabilities','Video iz predloška','Oživi fotografiju','AI video za posao','Studio Pro',
-  'Popularni predlošci','Rođendanska pjesma','Sveti Nikola','Djed Božićnjak','Nuki video',
-  'studio-template-search','data-template="santa"','data-template="nikola"','data-template="nuki"',
+  'Popularni predlošci','Rođendanska pjesma','/img/birthday.webp','Sveti Nikola','Djed Božićnjak','Nuki video',
+  'studio-template-search','id="studio-suggestions"','studio-brand-pill','hero-second-line','data-template="santa"','data-template="nikola"','data-template="nuki"',
   'id="panel-template"','id="panel-free"','role="tablist"',
   'Poruku upisuješ u sljedećem koraku','Uskoro','Kako radi?','Jednostavne cijene',
   '100 kredita','200 kredita','mobile-bottom','prefers-reduced-motion:reduce',
@@ -33,8 +33,8 @@ const jsRes=await req('/studio.js');
 assert.equal(jsRes.status,200);
 assert.match(jsRes.headers.get('content-type')??'',/application\/javascript/);
 const js=await jsRes.text();
-for(const fragment of ['chooseTemplate','studio-template-search','data-template','mailto:nepar@nepar.hr','toLocaleLowerCase'])assert.ok(js.includes(fragment),'Missing JS: '+fragment);
-for(const name of ['santa','nikola','nuki','nukipromo','song']){
+for(const fragment of ['chooseTemplate','studio-template-search','studio-suggestions-toggle','setPicker','data-template','mailto:nepar@nepar.hr','toLocaleLowerCase'])assert.ok(js.includes(fragment),'Missing JS: '+fragment);
+for(const name of ['santa','nikola','nuki','nukipromo','song','santa-solo','nikola-solo','birthday']){
   const res=await req('/img/'+name+'.webp');
   assert.equal(res.status,200,'Missing '+name);
   assert.equal(res.headers.get('content-type'),'image/webp');
@@ -50,6 +50,6 @@ assert.equal(bad.status,405);
 assert.equal(bad.headers.get('allow'),'GET, HEAD');
 const head=await req('/','HEAD');assert.equal(head.status,200);assert.equal(await head.text(),'');
 const health=await req('/healthz');
-assert.deepEqual(await health.json(),{ok:true,app:'nepar-studio-public',version:'2026.11.23-visual'});
+assert.deepEqual(await health.json(),{ok:true,app:'nepar-studio-public',version:'2026.11.23-fidelity'});
 for(const path of ['/robots.txt','/sitemap.xml','/favicon.svg'])assert.equal((await req(path)).status,200);
 console.log('PASS: cinematic desktop/mobile landing, 4 features and products, interactive selection, self-hosted media and safe links');

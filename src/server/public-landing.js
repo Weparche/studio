@@ -273,6 +273,22 @@ body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),
 .capability{padding:8px}.cap-copy strong{font-size:10px}.cap-copy small{font-size:8.5px}
 }
 @media(prefers-reduced-motion:reduce){.capability,.template img{transition:none}}
+
+/* Final editorial-art polish: no rectangular poster edges, no Krampus in hero. */
+@media(min-width:761px){
+.hero-showcase{background:radial-gradient(ellipse at 55% 62%,#e58a6930 0%,transparent 58%),radial-gradient(ellipse at 82% 20%,#723c9252 0%,transparent 53%)}
+.figure-santa{left:-6%;top:0;width:47%;height:101%;transform:rotate(-2deg);-webkit-mask-image:radial-gradient(ellipse 58% 59% at 50% 48%,#000 30%,#000e 48%,transparent 85%);mask-image:radial-gradient(ellipse 58% 59% at 50% 48%,#000 30%,#000e 48%,transparent 85%)}
+.figure-santa img{position:static!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:32% 50%!important;transform:none!important}
+.figure-nikola{right:-5%;top:-3%;width:45%;height:104%;transform:rotate(2deg);-webkit-mask-image:radial-gradient(ellipse 58% 59% at 50% 48%,#000 30%,#000e 48%,transparent 85%);mask-image:radial-gradient(ellipse 58% 59% at 50% 48%,#000 30%,#000e 48%,transparent 85%)}
+.figure-nikola img{position:static!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:31% 48%!important;transform:none!important}
+.figure-nuki{left:14%;width:86%;height:105%;bottom:-4%;transform:none}
+.figure-nuki img{object-position:center bottom;filter:drop-shadow(0 15px 34px #1d0b2466)}
+.showcase-clapper{right:12%;bottom:3%}
+}
+@media(max-width:760px){
+.hero-showcase .figure-nuki{left:0;width:100%;height:100%;bottom:-6px}
+}
+
 </style>
 <script src="/studio.js" defer></script>
 </head>

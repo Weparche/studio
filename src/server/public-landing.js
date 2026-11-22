@@ -3,7 +3,10 @@ import nikolaImage from './public-asset-nikola.js';
 import nukiImage from './public-asset-nuki.js';
 import nukiPromoImage from './public-asset-nukipromo.js';
 import songImage from './public-asset-song.js';
-const IMAGES = Object.freeze({'/img/santa.webp':santaImage,'/img/nikola.webp':nikolaImage,'/img/nuki.webp':nukiImage,'/img/nukipromo.webp':nukiPromoImage,'/img/song.webp':songImage});
+import santaSoloImage from './public-asset-santa-solo.js';
+import nikolaSoloImage from './public-asset-nikola-solo.js';
+import birthdayImage from './public-asset-birthday.js';
+const IMAGES = Object.freeze({'/img/santa.webp':santaImage,'/img/nikola.webp':nikolaImage,'/img/nuki.webp':nukiImage,'/img/nukipromo.webp':nukiPromoImage,'/img/song.webp':songImage,'/img/santa-solo.webp':santaSoloImage,'/img/nikola-solo.webp':nikolaSoloImage,'/img/birthday.webp':birthdayImage});
 /**
  * NEPAR Studio public landing (studio.nepar.hr).
  * This Worker intentionally exposes no former Series Studio API, D1, R2 or credentials.
@@ -139,6 +142,137 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 @media(max-width:365px){.hero h1{font-size:31px}.studio-choice{font-size:8px}.trust{font-size:9px}.capability{padding:8px 7px}.cap-icon{width:30px;height:30px;flex-basis:30px}.template-visual{height:112px}}
 @media(prefers-reduced-motion:reduce){.capability,.template-visual img{transition:none}.capability:hover,.template:hover .template-visual img{transform:none}}
 
+
+/* Visual fidelity pass for the selected NEPAR Studio concept (23 Nov 2026). */
+:root{--gold:#b36df6}
+html{scroll-padding-top:76px}
+body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),#090914;color:#fbf8ff}
+.site{max-width:1536px;padding-inline:clamp(18px,3.5vw,56px)}
+.header{height:70px;gap:20px}
+.brand{gap:9px;font-size:22px}.brand strong{color:#b56af4}
+.studio-brand-pill{display:inline-flex;align-items:center;padding:6px 15px;min-height:30px;border-radius:30px;background:#171326;color:#c49ee9;font-size:11px;font-weight:850;letter-spacing:.018em;white-space:nowrap;border:1px solid #2a1e40}
+.nav-links{margin-left:auto;margin-right:auto;gap:clamp(14px,2vw,30px)}
+.nav-links a{font-size:13px}.head-actions .btn{font-size:12px}
+.head-actions .btn-outline{border-color:#a168dc;background:#0c0815}.head-actions .btn-gold{background:linear-gradient(115deg,#9d4be9,#bf6ef9);box-shadow:0 7px 26px #963fe85f}
+.hero{position:relative;grid-template-columns:minmax(0,45%) minmax(0,55%);gap:0;min-height:468px;padding:12px 0 7px;align-items:center}
+.hero-copy{z-index:4;padding:0 0 0 36px;align-self:center;overflow:visible}
+.eyebrow{font-size:13px;color:#e8e0ee}.eyebrow b{color:#ffbe3c}
+.hero h1{font-size:clamp(36px,3.17vw,49px);letter-spacing:-.053em;line-height:1.075;margin:9px 0 12px;font-weight:900}
+.hero-second-line{white-space:nowrap;display:inline-block;letter-spacing:-.064em}
+.hero h1 em{color:#b96ef6}
+.hero-copy>p{font-size:15px;line-height:1.53;max-width:520px;margin:0 0 16px}
+.studio-entry{max-width:570px;padding:12px 15px 13px;background:linear-gradient(135deg,#29233fd9,#171525eb);border:1px solid #3b324f;border-radius:21px;box-shadow:0 12px 42px #0b0619a8}
+.studio-tabs{gap:10px;margin-bottom:11px}
+.studio-tab{min-height:46px;border-radius:13px;font-size:13px}
+.studio-tab[aria-selected="true"]{background:linear-gradient(115deg,#f0dbff,#c68afb);color:#181020;box-shadow:0 0 21px #b76cf978}
+.studio-search-wrap{position:relative;border-color:#463a57;background:#28243a;border-radius:12px;margin:0 0 10px;min-height:47px}
+.studio-search-wrap input{font-size:13px;line-height:1.4;min-height:45px;outline:0}
+.studio-search-wrap:focus-within{border-color:#c092ff;box-shadow:0 0 0 2px #9b50f63d}
+.studio-suggestions-toggle{font:inherit;font-weight:800;color:#bfa1ee;border:0;background:transparent;width:32px;height:37px;cursor:pointer;border-radius:9px;flex:0 0 32px}
+.studio-suggestions-toggle:hover{background:#ffffff14}
+.studio-picker[hidden]{display:none!important}
+.studio-picker{position:absolute;z-index:20;background:#21182e;border:1px solid #745195;box-shadow:0 12px 32px #07030eaa;border-radius:15px;left:14px;right:14px;margin:0;padding:7px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;transform:translateY(-4px)}
+.studio-entry{position:relative}
+.studio-choice{border-radius:9px;white-space:normal;padding:6px;background:#2b2139;border:1px solid #453653;display:flex;align-items:center;gap:7px;font-size:10px;text-align:left;min-height:51px}
+.studio-choice img{width:33px;height:38px;object-fit:cover;border-radius:6px;flex-shrink:0}
+.studio-choice[aria-pressed="true"]{color:#e5c9ff;background:#51316d;border-color:#b47af5}
+.studio-cta{border-radius:12px;min-height:47px;font-size:13px;background:linear-gradient(90deg,#a64eed,#b963f9);box-shadow:0 5px 19px #9437ee25}
+.studio-note{font-size:10px;margin-top:9px}.trust{margin:14px 0 0;gap:20px;font-weight:700;font-size:11px}.trust .ic{color:#d39aff}
+.hero-showcase{display:block;z-index:1;position:relative;min-height:0;height:469px;width:100%;align-self:stretch;overflow:visible;isolation:isolate}
+.showcase-glow{inset:-4% -3% -10% -12%;background:radial-gradient(ellipse at 60% 78%,#ffc66b45 0%,transparent 43%),radial-gradient(ellipse at 52% 30%,#ba5dff50 0%,transparent 65%);filter:blur(26px)}
+.showcase-stars{position:absolute;z-index:0;inset:3% 0 5%;pointer-events:none;background:radial-gradient(#ffe0a177 1px,transparent 2px) 0 0/73px 61px,radial-gradient(#fff6c75a 1px,transparent 1.6px) 20px 45px/91px 75px;mask-image:radial-gradient(ellipse at 66% 56%,#000,transparent 82%);opacity:.48}
+.showcase-figure{border:0;border-radius:0;box-shadow:none;background:transparent;overflow:hidden}
+.figure-santa{left:-7%;top:1%;width:47%;height:98%;transform:rotate(-2deg);z-index:1;-webkit-mask-image:radial-gradient(ellipse 73% 75% at 58% 49%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 73% 75% at 58% 49%,#000 50%,transparent 100%)}
+.figure-santa img{width:100%;height:100%;object-fit:cover;object-position:52% 25%}
+.figure-nikola{right:-7%;top:-3%;width:43%;height:108%;transform:rotate(2deg);z-index:2;-webkit-mask-image:radial-gradient(ellipse 68% 74% at 41% 46%,#000 49%,transparent 100%);mask-image:radial-gradient(ellipse 68% 74% at 41% 46%,#000 49%,transparent 100%)}
+.figure-nikola img{width:auto!important;max-width:none;height:152%;object-fit:initial;position:absolute;left:-1%;top:-14%}
+.figure-nuki{left:15%;bottom:-4%;width:72%;height:97%;transform:none;z-index:4;border-radius:0;overflow:visible;box-shadow:none;-webkit-mask-image:none;mask-image:none}
+.figure-nuki img{width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 18px 23px #11072088)}
+.showcase-clapper{z-index:6;right:16%;bottom:3%;width:86px;height:71px;border:3px solid #f7c66d;background:linear-gradient(135deg,#6125ad,#aa4df7);border-radius:16px;box-shadow:0 0 34px #ffa74b9d,0 12px 20px #16071b9d;transform:rotate(-13deg);font-size:30px}
+.studio-capabilities{gap:12px;margin:-5px 0 26px;position:relative;z-index:3}
+.capability{min-height:107px;border-radius:19px;padding:16px 14px;background:linear-gradient(130deg,#29213a,#151322);border-color:#48345d;box-shadow:0 8px 21px #05020d52;gap:13px}
+.capability-active{border-color:#cc83ff;box-shadow:0 0 0 1px #a75aea66,0 0 22px #a14be55d;background:linear-gradient(115deg,#3a244e,#151323)}
+.capability-pro{background:linear-gradient(120deg,#382419,#211725);border-color:#80572e}
+.cap-icon{width:54px;height:54px;flex-basis:54px;border-radius:16px;font-size:28px;box-shadow:inset 0 0 16px #ffffff11}
+.cap-copy strong{font-size:15px;line-height:1.2}.cap-copy small{font-size:11px;color:#c5b9cf}
+.cap-arrow{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;font-size:19px;background:#ffffff16;padding:0}
+.soon-label{font-size:9px;padding:4px 8px;background:#ffc356}
+.section-head{margin-bottom:14px}.section-head h2{font-size:31px}.section-head p{font-size:14px;line-height:1.5}.all-templates{font-size:13px;color:#c77fff}
+.template-grid{gap:14px}
+.template-visual{height:auto;aspect-ratio:2.2;border-radius:17px;border-color:#42234e;box-shadow:0 7px 18px #0006}
+.template-visual img{object-position:center 34%}
+.template-santa .template-visual img{object-position:center 29%}
+.template-nikola .template-visual img{object-position:center 28%}
+.template-nuki .template-visual{background:radial-gradient(ellipse at 56% 32%,#c08d4f,#563657 61%,#1d1429)}
+.template-nuki .template-visual img{object-fit:contain;padding:0 13%;object-position:center 50%}
+.template-song .template-visual img{object-position:center 74%}
+.template-card-copy strong{font-size:16px}
+.template-card-copy small{font-size:12px}
+.template-play{width:41px;height:41px;border-radius:50%;background:#130b1ba9}
+.template-duration{font-size:11px}
+@media(max-width:1350px){
+.hero-copy{padding-left:18px}
+.hero h1{font-size:clamp(36px,3.05vw,45px)}
+.hero-showcase{height:441px}
+.hero{min-height:440px}
+.cap-icon{width:43px;height:43px;flex-basis:43px;font-size:23px}
+.cap-copy strong{font-size:13px}.cap-copy small{font-size:10px}.capability{gap:9px;padding:13px 10px;min-height:91px}
+}
+@media(max-width:1050px){
+.studio-brand-pill{display:none}
+.hero{grid-template-columns:minmax(0,49%) minmax(0,51%)}
+.hero h1{font-size:clamp(33px,3.2vw,39px)}
+.hero-copy{padding-left:0}
+.hero-showcase{height:395px}
+.figure-nuki{left:11%;width:77%}
+.hero-copy>p{font-size:13px}
+.studio-tab{font-size:12px}
+.cap-copy strong{font-size:12px}
+.capability{min-height:85px}
+}
+@media(max-width:760px){
+.site{padding-inline:14px}
+.header{height:61px}
+.brand{font-size:18px}.nav-links{display:none}
+.hero{display:block;min-height:0;padding:16px 0 10px;overflow:visible}
+.hero-copy{padding:0;position:relative;z-index:3}
+.hero h1{font-size:clamp(32px,8.55vw,42px);line-height:1.09;margin:8px 0 10px}
+.hero-second-line{white-space:normal;letter-spacing:-.053em}
+.hero-copy>p{font-size:12px;margin:0 0 13px;max-width:370px}
+.studio-entry{padding:11px 12px 12px;max-width:none}
+.studio-tab{min-height:41px;font-size:12px}
+.studio-search-wrap{min-height:42px}
+.studio-search-wrap input{font-size:11px;min-height:39px;padding:9px 0}
+.studio-cta{min-height:43px;font-size:12px}
+.studio-note{font-size:9px}
+.trust{font-size:10px;gap:10px;margin-top:10px}
+.hero-showcase{display:block;position:absolute;right:-16px;top:1px;width:145px;height:155px;min-height:0;z-index:0;overflow:hidden;opacity:.20;pointer-events:none}
+.hero-showcase .figure-santa,.hero-showcase .figure-nikola,.hero-showcase .showcase-clapper,.hero-showcase .showcase-stars{display:none}
+.hero-showcase .figure-nuki{left:0;bottom:-6px;width:100%;height:100%;opacity:1}
+.hero-showcase .showcase-glow{inset:0}
+.studio-capabilities{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:9px 0 23px}
+.capability{min-height:79px;padding:10px 9px;border-radius:14px;gap:8px}
+.cap-icon{width:36px;height:36px;flex:0 0 36px;font-size:22px;border-radius:11px}
+.cap-copy strong{font-size:11px;line-height:1.15}
+.cap-copy small{font-size:9px;line-height:1.3;margin-top:4px}
+.cap-arrow{display:none}
+.section-head{margin:0 0 10px}.section-head h2{font-size:23px}.section-head p{font-size:11px}.all-templates{font-size:10px}
+.template-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.template-visual{aspect-ratio:1.65;border-radius:12px}
+.template-card-copy strong{font-size:13px}.template-card-copy small{font-size:10px}
+.template-play{width:31px;height:31px;left:8px;bottom:8px}
+.template-duration{font-size:9px}
+.studio-picker{grid-template-columns:1fr;gap:3px;left:10px;right:10px}
+.studio-choice{min-height:48px}
+.studio-choice img{width:40px;height:40px}
+}
+@media(max-width:360px){
+.hero h1{font-size:31px}
+.hero-showcase{opacity:.13}
+.studio-search-wrap input{font-size:10px}
+.capability{padding:8px}.cap-copy strong{font-size:10px}.cap-copy small{font-size:8.5px}
+}
+@media(prefers-reduced-motion:reduce){.capability,.template img{transition:none}}
 </style>
 <script src="/studio.js" defer></script>
 </head>
@@ -146,7 +280,7 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 <a class="skip" href="#main">Preskoči na sadržaj</a>
 <div class="site" id="top">
 <header class="header">
-<a class="brand" href="#top" aria-label="NEPAR Studio — Početna"><span class="brandmark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 5L27 16 5 27V5Z" fill="#0D2042"/><path d="M8 8L21 16 8 24V8Z" fill="#FFD83D"/><path d="M6 7L15 11V21L6 25V7Z" fill="#F9A300"/></svg></span><span>NEPAR <strong>Studio</strong></span></a>
+<a class="brand" href="#top" aria-label="NEPAR Studio — Početna"><span class="brandmark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 5L27 16 5 27V5Z" fill="#0D2042"/><path d="M8 8L21 16 8 24V8Z" fill="#FFD83D"/><path d="M6 7L15 11V21L6 25V7Z" fill="#F9A300"/></svg></span><span>NEPAR <strong>Studio</strong></span></a><span class="studio-brand-pill">AI CREATIVE STUDIO</span>
 <nav class="nav-links" aria-label="Glavna navigacija"><a href="#predlosci">Predlošci</a><a href="#predlosci">Istraži</a><a href="#kako-radi">Kako radi</a><a href="#cijene">Cijene</a><a href="#faq">FAQ</a></nav>
 <div class="head-actions"><a class="btn btn-outline" href="https://kids.nepar.hr/">NEPAR Kids</a><a class="btn btn-gold" href="#izradi">✦ Započni stvarati</a></div>
 <details class="mobile-menu"><summary aria-label="Otvori izbornik">☰</summary><nav aria-label="Mobilni izbornik"><a href="#predlosci">Predlošci</a><a href="#primjeri">Primjeri</a><a href="#kako-radi">Kako radi</a><a href="#cijene">Cijene</a><a href="#faq">Pomoć</a><a href="https://kids.nepar.hr/">NEPAR Kids</a></nav></details>
@@ -155,7 +289,7 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 <section class="hero" aria-labelledby="hero-title">
 <div class="hero-copy">
 <span class="eyebrow"><b>✦</b> TVOJ AI VIDEO STUDIO</span>
-<h1 id="hero-title">Zamisli video.<br>Stvori ga s <em>NEPAR Studijem.</em></h1>
+<h1 id="hero-title">Zamisli video.<br><span class="hero-second-line">Stvori ga s <em>NEPAR Studijem.</em></span></h1>
 <p class="hero-lead">Personalizirani videi za djecu, obitelj, posebne prigode i tvoj posao — bez kamere i bez montaže.</p>
 <div class="studio-entry" id="izradi" aria-label="Započni izradu videa">
 <div class="studio-tabs" role="tablist" aria-label="Način izrade">
@@ -164,11 +298,15 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 </div>
 <div class="studio-panel" id="panel-template" role="tabpanel" aria-labelledby="tab-template">
 <label for="studio-template-search" class="visually-hidden">Pretraži predložak: Djed, Nikola ili Nuki</label>
-<div class="studio-search-wrap"><span aria-hidden="true">✦</span><input id="studio-template-search" type="search" autocomplete="off" placeholder="Npr. Djed Božićnjak čestita Ani rođendan..."></div>
-<div class="studio-picker" role="group" aria-label="Odaberi video">
-<button class="studio-choice" type="button" data-template="santa" aria-pressed="true">Djed Božićnjak</button>
-<button class="studio-choice" type="button" data-template="nikola" aria-pressed="false">Sveti Nikola</button>
-<button class="studio-choice" type="button" data-template="nuki" aria-pressed="false">Nuki video</button>
+<div class="studio-search-wrap">
+<span aria-hidden="true">✦</span>
+<input id="studio-template-search" type="search" autocomplete="off" aria-controls="studio-suggestions" aria-expanded="false" placeholder="Npr. Djed Božićnjak čestita Ani rođendan...">
+<button class="studio-suggestions-toggle" id="studio-suggestions-toggle" type="button" aria-label="Prikaži gotove predloške" aria-controls="studio-suggestions" aria-expanded="false">⌄</button>
+</div>
+<div class="studio-picker" id="studio-suggestions" role="group" aria-label="Odaberi gotovi predložak" hidden>
+<button class="studio-choice" type="button" data-template="santa" aria-pressed="true"><img src="/img/santa-solo.webp" width="44" height="44" alt="">Djed Božićnjak</button>
+<button class="studio-choice" type="button" data-template="nikola" aria-pressed="false"><img src="/img/nikola-solo.webp" width="44" height="44" alt="">Sveti Nikola</button>
+<button class="studio-choice" type="button" data-template="nuki" aria-pressed="false"><img src="/img/nukipromo.webp" width="44" height="44" alt="">Nuki video</button>
 </div>
 <a class="studio-cta" id="studio-create" href="https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak">Započni stvarati <span aria-hidden="true">→</span></a>
 <div class="studio-note"><span id="studio-selected" aria-live="polite">Odabrano: Djed Božićnjak</span><span>Poruku upisuješ u sljedećem koraku</span></div>
@@ -182,9 +320,9 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 <div class="trust"><span><span class="ic" aria-hidden="true">⚡</span> Brzo i jednostavno</span><span><span class="ic" aria-hidden="true">♢</span> Sigurno i privatno</span><span><span class="ic" aria-hidden="true">♡</span> Na hrvatskom jeziku</span></div>
 </div>
 <div class="hero-showcase" aria-label="Djed Božićnjak, Nuki i Sveti Nikola">
-<div class="showcase-glow"></div>
-<div class="showcase-figure figure-santa"><img src="/img/santa.webp" alt="Djed Božićnjak u čarobnoj radionici" fetchpriority="high" width="450" height="580"></div>
-<div class="showcase-figure figure-nikola"><img src="/img/nikola.webp" alt="Sveti Nikola u blagdanskom ambijentu" fetchpriority="high" width="450" height="580"></div>
+<div class="showcase-glow"></div><div class="showcase-stars" aria-hidden="true"></div>
+<div class="showcase-figure figure-santa"><img src="/img/santa-solo.webp" alt="Djed Božićnjak u čarobnoj radionici" fetchpriority="high" width="450" height="580"></div>
+<div class="showcase-figure figure-nikola"><img src="/img/nikola-solo.webp" alt="Sveti Nikola u blagdanskom ambijentu" fetchpriority="high" width="450" height="580"></div>
 <div class="showcase-figure figure-nuki"><img src="/img/nukipromo.webp" alt="Nuki, zlatnosmeđi pas i junak NEPAR Kidsa" fetchpriority="high" width="450" height="580"></div>
 <div class="showcase-clapper" aria-hidden="true">▶</div>
 </div>
@@ -199,17 +337,17 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 <div class="section-head"><div><h2 id="templates-title">Popularni predlošci</h2><p>Gotovi video predlošci koje možeš odmah personalizirati.</p></div><a class="all-templates" href="https://kids.nepar.hr/#pokloni">Svi predlošci <span aria-hidden="true">→</span></a></div>
 <div class="template-grid">
 <a class="template template-santa" href="https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak" aria-label="Izradi video Djeda Božićnjaka">
-<span class="template-visual"><img loading="lazy" src="/img/santa.webp" alt="Djed Božićnjak" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">15 sek</span></span>
-<span class="template-card-copy"><strong>Djed Božićnjak</strong><small>Personalizirana videoporuka za dijete</small></span></a>
+<span class="template-visual"><img loading="lazy" src="/img/santa-solo.webp" alt="Djed Božićnjak" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">15 sek</span></span>
+<span class="template-card-copy"><strong>🎅 Djed Božićnjak</strong><small>Personalizirana videoporuka za dijete</small></span></a>
 <a class="template template-nikola" href="https://kids.nepar.hr/personaliziraj?gift=sveti-nikola" aria-label="Izradi video Svetog Nikole">
-<span class="template-visual"><img loading="lazy" src="/img/nikola.webp" alt="Sveti Nikola" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">15 sek</span></span>
-<span class="template-card-copy"><strong>Sveti Nikola</strong><small>Video čestitka s osobnom porukom</small></span></a>
+<span class="template-visual"><img loading="lazy" src="/img/nikola-solo.webp" alt="Sveti Nikola" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">15 sek</span></span>
+<span class="template-card-copy"><strong>🎁 Sveti Nikola</strong><small>Video čestitka s osobnom porukom</small></span></a>
 <a class="template template-nuki" href="https://kids.nepar.hr/personaliziraj?gift=video" aria-label="Izradi Nuki video">
-<span class="template-visual"><img loading="lazy" src="/img/nuki.webp" alt="Nuki, veseli zlatnosmeđi pas" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">Nuki</span></span>
-<span class="template-card-copy"><strong>Nuki video</strong><small>Zabavna, personalizirana avantura</small></span></a>
+<span class="template-visual"><img loading="lazy" src="/img/nukipromo.webp" alt="Nuki, veseli zlatnosmeđi pas" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">Nuki</span></span>
+<span class="template-card-copy"><strong>🐾 Nuki video</strong><small>Zabavna, personalizirana avantura</small></span></a>
 <a class="template template-song" href="https://kids.nepar.hr/#pokloni" aria-label="Odaberi rođendansku pjesmu na NEPAR Kids">
-<span class="template-visual"><img loading="lazy" src="/img/song.webp" alt="Ilustracija rođendanske pjesme" width="480" height="350"><span class="template-play" aria-hidden="true">♫</span><span class="template-duration">oko 2 min</span></span>
-<span class="template-card-copy"><strong>Rođendanska pjesma</strong><small>Pjesma s imenom tvojeg djeteta</small></span></a>
+<span class="template-visual"><img loading="lazy" src="/img/birthday.webp" alt="Ilustracija rođendanske pjesme" width="480" height="350"><span class="template-play" aria-hidden="true">▶</span><span class="template-duration">oko 2 min</span></span>
+<span class="template-card-copy"><strong>🎂 Rođendanska pjesma</strong><small>Pjesma s imenom tvojeg djeteta</small></span></a>
 </div></section>
 <section class="steps" id="kako-radi" aria-label="Kako radi NEPAR Studio">
 <div class="steps-intro"><strong>Kako radi?</strong><small>Od ideje do gotovog sadržaja u samo 3 koraka.</small></div>
@@ -248,51 +386,80 @@ body{background:radial-gradient(ellipse at 48% -12%,#241430 0%,transparent 52%),
 </div>
 <nav class="mobile-bottom" aria-label="Brza mobilna navigacija"><a class="active" href="#top"><span aria-hidden="true">⌂</span>Početna</a><a class="create" href="#izradi">Započni stvarati</a><a href="#predlosci"><span aria-hidden="true">▦</span>Predlošci</a></nav>
 </body></html>`;
-const STUDIO_JS = String.raw`const templates = {
-  santa:{name:"Djed Božićnjak",url:"https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak"},
-  nikola:{name:"Sveti Nikola",url:"https://kids.nepar.hr/personaliziraj?gift=sveti-nikola"},
-  nuki:{name:"Nuki video",url:"https://kids.nepar.hr/personaliziraj?gift=video"}
+const STUDIO_JS = String.raw`const templates={
+santa:{name:"Djed Božićnjak",url:"https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak"},
+nikola:{name:"Sveti Nikola",url:"https://kids.nepar.hr/personaliziraj?gift=sveti-nikola"},
+nuki:{name:"Nuki video",url:"https://kids.nepar.hr/personaliziraj?gift=video"}
 };
 const tabs=Array.from(document.querySelectorAll("[data-studio-mode]"));
 const panels={template:document.getElementById("panel-template"),free:document.getElementById("panel-free")};
 for(const tab of tabs){
-  tab.addEventListener("click",()=>{
-    const mode=tab.dataset.studioMode;
-    for(const other of tabs){other.setAttribute("aria-selected",String(other===tab));other.tabIndex=other===tab?0:-1;}
-    panels.template.hidden=mode!=="template";panels.free.hidden=mode!=="free";
-  });
-  tab.addEventListener("keydown",e=>{
-    if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;
-    e.preventDefault();
-    const next=tabs[(tabs.indexOf(tab)+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];
-    next.focus();next.click();
-  });
-}
-function chooseTemplate(key){
-  const value=templates[key];
-  if(!value)return;
-  for(const choice of document.querySelectorAll("[data-template]")){
-    choice.setAttribute("aria-pressed",String(choice.dataset.template===key));
-  }
-  document.getElementById("studio-create").href=value.url;
-  document.getElementById("studio-selected").textContent="Odabrano: "+value.name;
-}
-for(const choice of document.querySelectorAll("[data-template]")){
-  choice.addEventListener("click",()=>chooseTemplate(choice.dataset.template));
+ tab.addEventListener("click",()=>{
+  const mode=tab.dataset.studioMode;
+  for(const other of tabs){other.setAttribute("aria-selected",String(other===tab));other.tabIndex=other===tab?0:-1;}
+  panels.template.hidden=mode!=="template";panels.free.hidden=mode!=="free";
+ });
+ tab.addEventListener("keydown",e=>{
+  if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;
+  e.preventDefault();
+  const next=tabs[(tabs.indexOf(tab)+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];
+  next.focus();next.click();
+ });
 }
 const search=document.getElementById("studio-template-search");
-if(search)search.addEventListener("input",()=>{
-  const text=search.value.toLocaleLowerCase("hr");
-  if(/nikol|krampus/.test(text))chooseTemplate("nikola");
-  else if(/nuki|pas|kuki/.test(text))chooseTemplate("nuki");
-  else if(/djed|božić|bozic|santa/.test(text))chooseTemplate("santa");
+const picker=document.getElementById("studio-suggestions");
+const toggle=document.getElementById("studio-suggestions-toggle");
+function setPicker(open){
+ picker.hidden=!open;
+ search.setAttribute("aria-expanded",String(open));
+ toggle.setAttribute("aria-expanded",String(open));
+}
+function chooseTemplate(key){
+ const t=templates[key];if(!t)return;
+ for(const c of document.querySelectorAll("[data-template]"))c.setAttribute("aria-pressed",String(c.dataset.template===key));
+ document.getElementById("studio-create").href=t.url;
+ document.getElementById("studio-selected").textContent="Odabrano: "+t.name;
+ setPicker(false);
+}
+function inferTemplate(value){
+ const q=value.toLocaleLowerCase("hr");
+ if(/nikol|krampus/.test(q))return "nikola";
+ if(/nuki|pas|kuki/.test(q))return "nuki";
+ if(/djed|božić|bozic|santa/.test(q))return "santa";
+ return null;
+}
+if(search){
+ search.addEventListener("focus",()=>setPicker(true));
+ search.addEventListener("input",()=>{
+  const matching=inferTemplate(search.value);
+  if(matching)chooseTemplate(matching);
+  setPicker(true);
+ });
+ search.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){setPicker(false);search.blur();}
+  if(e.key==="ArrowDown"){e.preventDefault();setPicker(true);picker.querySelector("[data-template]")?.focus();}
+ });
+}
+if(toggle)toggle.addEventListener("click",()=>{
+ const open=picker.hidden;setPicker(open);
+ if(open)picker.querySelector("[data-template]")?.focus();else search.focus();
 });
-const idea=document.getElementById("studio-idea");
-const email=document.getElementById("studio-request-link");
+for(const choice of document.querySelectorAll("[data-template]")){
+ choice.addEventListener("click",()=>{
+  chooseTemplate(choice.dataset.template);search.value=templates[choice.dataset.template]?.name||"";
+ });
+ choice.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){setPicker(false);search.focus();}
+ });
+}
+document.addEventListener("pointerdown",e=>{
+ if(!document.getElementById("panel-template")?.contains(e.target))setPicker(false);
+});
+const idea=document.getElementById("studio-idea"),email=document.getElementById("studio-request-link");
 if(idea&&email)idea.addEventListener("input",()=>{
-  const subject="Rani pristup NEPAR Studio Pro";
-  const body=idea.value.trim()?"Pozdrav, zanima me rani pristup NEPAR Studio Pro.\n\nMoja ideja:\n"+idea.value.trim():"Pozdrav, zanima me rani pristup NEPAR Studio Pro.";
-  email.href="mailto:nepar@nepar.hr?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+ const subject="Rani pristup NEPAR Studio Pro";
+ const body=idea.value.trim()?"Pozdrav, zanima me rani pristup NEPAR Studio Pro.\n\nMoja ideja:\n"+idea.value.trim():"Pozdrav, zanima me rani pristup NEPAR Studio Pro.";
+ email.href="mailto:nepar@nepar.hr?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
 });
 `;
 const FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#071326"/><path d="M12 11L55 32 12 53V11Z" fill="#ffcb23"/><path d="M20 20L42 32 20 44V20Z" fill="#09182e"/></svg>';
@@ -315,7 +482,7 @@ export default {
     else if (path === '/favicon.svg') {body=FAVICON;type='image/svg+xml';cache='public, max-age=86400';}
     else if (path === '/robots.txt') {body='User-agent: *\nAllow: /\nSitemap: https://studio.nepar.hr/sitemap.xml\n';type='text/plain; charset=utf-8';}
     else if (path === '/sitemap.xml') {body='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://studio.nepar.hr/</loc></url></urlset>';type='application/xml; charset=utf-8';}
-    else if (path === '/healthz') {body=JSON.stringify({ok:true,app:'nepar-studio-public',version:'2026.11.23-visual'});type='application/json';cache='no-store';}
+    else if (path === '/healthz') {body=JSON.stringify({ok:true,app:'nepar-studio-public',version:'2026.11.23-fidelity'});type='application/json';cache='no-store';}
     else {status=404;body='Stranica nije pronađena.';type='text/plain; charset=utf-8';cache='no-store';}
     return new Response(request.method === 'HEAD' ? null : body,{status,headers:{...H,'content-type':type,'cache-control':cache}});
   }

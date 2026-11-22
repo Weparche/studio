@@ -23,6 +23,16 @@ assert.match(html,/prefers-reduced-motion:reduce/);
 assert.match(html,/aria-label="Brza mobilna navigacija"/);
 assert.match(html,/Kreditni paketi koje pripremamo/);
 assert.ok(!html.includes('id="private-api"'));
+assert.ok(!html.includes('src="https://kids.nepar.hr/assets/'),'All images must be self-hosted');
+for (const name of ['santa','nikola','nuki','nukipromo']) {
+  const res=await req('/img/'+name+'.webp');
+  assert.equal(res.status,200);
+  assert.equal(res.headers.get('content-type'),'image/webp');
+  const bytes=new Uint8Array(await res.arrayBuffer());
+  assert.ok(bytes.byteLength>10000,'Image missing: '+name);
+  assert.equal(String.fromCharCode(...bytes.slice(0,4)),'RIFF');
+}
+
 for(const path of ['/api/me','/api/generations','/media/generation/123','/settings']) {
   const result=await req(path);
   assert.equal(result.status,404,'Old internal endpoint must be closed: '+path);

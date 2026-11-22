@@ -289,6 +289,11 @@ body{background:radial-gradient(ellipse at 47% -10%,#251432 0%,transparent 51%),
 .hero-showcase .figure-nuki{left:0;width:100%;height:100%;bottom:-6px}
 }
 
+
+/* Keep the dog's expressive face in front while blending its raised tail behind Santa. */
+@media(min-width:761px){
+.figure-nuki{-webkit-mask-image:linear-gradient(135deg,transparent 6%,#000 40%);mask-image:linear-gradient(135deg,transparent 6%,#000 40%)}
+}
 </style>
 <script src="/studio.js" defer></script>
 </head>

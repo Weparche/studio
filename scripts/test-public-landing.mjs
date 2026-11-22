@@ -2,61 +2,54 @@ import assert from 'node:assert/strict';
 import studio from '../src/server/public-landing.js';
 
 const req=(path,method='GET')=>studio.fetch(new Request('https://studio.nepar.hr'+path,{method}));
-const response=await req('/');
-assert.equal(response.status,200);
-assert.match(response.headers.get('content-type')??'',/text\/html/);
-assert.match(response.headers.get('content-security-policy')??'',/default-src 'none'/);
-assert.match(response.headers.get('content-security-policy')??'',/frame-ancestors 'none'/);
-assert.match(response.headers.get('content-security-policy')??'',/script-src 'self'/);
-const html=await response.text();
-assert.ok(html.length>30000,'Full responsive landing must be built');
+const home=await req('/');
+assert.equal(home.status,200);
+assert.match(home.headers.get('content-type')??'',/text\/html/);
+assert.match(home.headers.get('content-security-policy')??'',/default-src 'none'/);
+assert.match(home.headers.get('content-security-policy')??'',/script-src 'self'/);
+assert.match(home.headers.get('content-security-policy')??'',/frame-ancestors 'none'/);
+const html=await home.text();
+assert.ok(html.length>45000,'Full responsive cinematic landing should be built');
 for(const part of [
-  'Zamisli video.','Stvori ga.','Kako želiš započeti?','id="izradi"',
-  'role="tablist"','role="tabpanel"','data-studio-mode="template"','data-studio-mode="free"',
-  'data-template="santa"','data-template="nikola"','data-template="nuki"',
-  'Odaberi predložak','Djed Božićnjak','Sveti Nikola','Nuki video',
-  'studio-categories','Video iz predloška','Oživi fotografiju','Reklamni video',
-  'NEPAR Studio Pro','Kako radi?','Za ideje koje zaslužuju biti viđene.',
-  'Jednostavne cijene','100 kredita','200 kredita','U pripremi','mobile-bottom',
+  'TVOJ AI VIDEO STUDIO','Zamisli video.','Stvori ga s','NEPAR Studijem.',
+  'studio-capabilities','Video iz predloška','Oživi fotografiju','AI video za posao','Studio Pro',
+  'Popularni predlošci','Rođendanska pjesma','Sveti Nikola','Djed Božićnjak','Nuki video',
+  'studio-template-search','data-template="santa"','data-template="nikola"','data-template="nuki"',
+  'id="panel-template"','id="panel-free"','role="tablist"',
+  'Poruku upisuješ u sljedećem koraku','Uskoro','Kako radi?','Jednostavne cijene',
+  '100 kredita','200 kredita','mobile-bottom','prefers-reduced-motion:reduce',
   'https://kids.nepar.hr/personaliziraj?gift=djed-bozicnjak',
   'https://kids.nepar.hr/personaliziraj?gift=sveti-nikola',
   'https://kids.nepar.hr/personaliziraj?gift=video'
-])assert.ok(html.includes(part),'Missing public UI: '+part);
+])assert.ok(html.includes(part),'Missing UI: '+part);
+assert.equal((html.match(/<section class="templates"/g)||[]).length,1);
+assert.equal((html.match(/class="template template-/g)||[]).length,4);
+assert.equal((html.match(/class="capability(?:\s|")/g)||[]).length,4);
 assert.match(html,/@media\(max-width:760px\)/);
-assert.match(html,/@media\(max-width:360px\)/);
-assert.match(html,/prefers-reduced-motion:reduce/);
-assert.match(html,/aria-label="Brza mobilna navigacija"/);
-assert.match(html,/Još nisu dostupni|još nisu dostupni/);
-assert.match(html,/Napredna generacija iz vlastite ideje još je u pripremi/);
+assert.match(html,/@media\(max-width:365px\)/);
 assert.ok(!html.includes('id="private-api"'));
-assert.ok(!html.includes('src="https://kids.nepar.hr/assets/'),'All images must be self-hosted');
-const script=await req('/studio.js');
-assert.equal(script.status,200);
-assert.match(script.headers.get('content-type')??'',/application\/javascript/);
-const js=await script.text();
-assert.match(js,/data-studio-mode/);
-assert.match(js,/data-template/);
-assert.match(js,/mailto:nepar@nepar.hr/);
-for(const name of ['santa','nikola','nuki','nukipromo']){
+assert.ok(!html.includes('src="https://kids.nepar.hr/assets/'),'Images are self-hosted');
+const jsRes=await req('/studio.js');
+assert.equal(jsRes.status,200);
+assert.match(jsRes.headers.get('content-type')??'',/application\/javascript/);
+const js=await jsRes.text();
+for(const fragment of ['chooseTemplate','studio-template-search','data-template','mailto:nepar@nepar.hr','toLocaleLowerCase'])assert.ok(js.includes(fragment),'Missing JS: '+fragment);
+for(const name of ['santa','nikola','nuki','nukipromo','song']){
   const res=await req('/img/'+name+'.webp');
-  assert.equal(res.status,200);
+  assert.equal(res.status,200,'Missing '+name);
   assert.equal(res.headers.get('content-type'),'image/webp');
   const bytes=new Uint8Array(await res.arrayBuffer());
-  assert.ok(bytes.byteLength>10000,'Image missing '+name);
+  assert.ok(bytes.byteLength>10000,'Image too small '+name);
   assert.equal(String.fromCharCode(...bytes.slice(0,4)),'RIFF');
 }
 for(const path of ['/api/me','/api/generations','/media/generation/123','/settings']){
-  const result=await req(path);
-  assert.equal(result.status,404,'Old internal endpoint must be closed: '+path);
+  assert.equal((await req(path)).status,404,'No internal route '+path);
 }
-const method=await req('/','POST');
-assert.equal(method.status,405);
-assert.equal(method.headers.get('allow'),'GET, HEAD');
-const head=await req('/','HEAD');
-assert.equal(head.status,200);
-assert.equal(await head.text(),'');
+const bad=await req('/','POST');
+assert.equal(bad.status,405);
+assert.equal(bad.headers.get('allow'),'GET, HEAD');
+const head=await req('/','HEAD');assert.equal(head.status,200);assert.equal(await head.text(),'');
 const health=await req('/healthz');
-assert.equal(health.status,200);
-assert.deepEqual(await health.json(),{ok:true,app:'nepar-studio-public',version:'2026.11.23'});
+assert.deepEqual(await health.json(),{ok:true,app:'nepar-studio-public',version:'2026.11.23-visual'});
 for(const path of ['/robots.txt','/sitemap.xml','/favicon.svg'])assert.equal((await req(path)).status,200);
-console.log('PASS: responsive public landing v2, template chooser, Pro request, safe links, security headers, SEO, closed private endpoints');
+console.log('PASS: cinematic desktop/mobile landing, 4 features and products, interactive selection, self-hosted media and safe links');
